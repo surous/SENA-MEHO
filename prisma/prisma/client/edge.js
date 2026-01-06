@@ -84,6 +84,9 @@ Prisma.NullTypes = {
  * Enums
  */
 exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
+  ReadUncommitted: 'ReadUncommitted',
+  ReadCommitted: 'ReadCommitted',
+  RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
 });
 
@@ -160,6 +163,11 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.QueryMode = {
+  default: 'default',
+  insensitive: 'insensitive'
+};
+
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
@@ -214,17 +222,18 @@ const config = {
   "datasourceNames": [
     "db"
   ],
-  "activeProvider": "sqlite",
+  "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
-        "fromEnvVar": null,
-        "value": "file:./dev.db"
+        "fromEnvVar": "DATABASE_URL",
+        "value": null
       }
     }
   },
-  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"./prisma/client\"\n}\n\ndatasource db {\n  provider = \"sqlite\"\n  url      = \"file:./dev.db\"\n}\n\nmodel User {\n  id        String   @id @default(cuid())\n  name      String?\n  email     String?  @unique\n  password  String?\n  role      String   @default(\"PATIENT\")\n  image     String?\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  doctor  Doctor?\n  patient Patient?\n}\n\nmodel Department {\n  id          String   @id @default(cuid())\n  name        String   @unique\n  description String?\n  doctors     Doctor[]\n}\n\nmodel Doctor {\n  id           String        @id @default(cuid())\n  userId       String        @unique\n  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)\n  departmentId String\n  department   Department    @relation(fields: [departmentId], references: [id])\n  specialty    String\n  appointments Appointment[]\n  notes        MedicalNote[]\n}\n\nmodel Patient {\n  id             String         @id @default(cuid())\n  userId         String         @unique\n  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)\n  dateOfBirth    DateTime?\n  gender         String?\n  appointments   Appointment[]\n  medicalRecords MedicalNote[]\n  healthReports  HealthReport[]\n}\n\nmodel Appointment {\n  id        String   @id @default(cuid())\n  patientId String\n  patient   Patient  @relation(fields: [patientId], references: [id])\n  doctorId  String\n  doctor    Doctor   @relation(fields: [doctorId], references: [id])\n  date      DateTime\n  status    String   @default(\"PENDING\")\n  reason    String?\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel MedicalNote {\n  id            String         @id @default(cuid())\n  patientId     String\n  patient       Patient        @relation(fields: [patientId], references: [id])\n  doctorId      String\n  doctor        Doctor         @relation(fields: [doctorId], references: [id])\n  content       String\n  prescriptions Prescription[]\n  createdAt     DateTime       @default(now())\n  updatedAt     DateTime       @updatedAt\n}\n\nmodel Prescription {\n  id            String      @id @default(cuid())\n  medicalNoteId String\n  medicalNote   MedicalNote @relation(fields: [medicalNoteId], references: [id])\n  medication    String\n  dosage        String\n  duration      String\n  createdAt     DateTime    @default(now())\n}\n\nmodel HealthReport {\n  id        String   @id @default(cuid())\n  patientId String\n  patient   Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)\n  content   String\n  vitals    String?\n  createdAt DateTime @default(now())\n}\n",
-  "inlineSchemaHash": "e4647272c84cf23acd77687f3cf7acb0ee2fac9f2587c4a2127cca59349a74fc",
+  "inlineSchema": "generator client {\n  provider = \"prisma-client-js\"\n  output   = \"./prisma/client\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id        String   @id @default(cuid())\n  name      String?\n  email     String?  @unique\n  password  String?\n  role      String   @default(\"PATIENT\")\n  image     String?\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n\n  doctor  Doctor?\n  patient Patient?\n}\n\nmodel Department {\n  id          String   @id @default(cuid())\n  name        String   @unique\n  description String?\n  doctors     Doctor[]\n}\n\nmodel Doctor {\n  id           String        @id @default(cuid())\n  userId       String        @unique\n  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)\n  departmentId String\n  department   Department    @relation(fields: [departmentId], references: [id])\n  specialty    String\n  appointments Appointment[]\n  notes        MedicalNote[]\n}\n\nmodel Patient {\n  id             String         @id @default(cuid())\n  userId         String         @unique\n  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)\n  dateOfBirth    DateTime?\n  gender         String?\n  appointments   Appointment[]\n  medicalRecords MedicalNote[]\n  healthReports  HealthReport[]\n}\n\nmodel Appointment {\n  id        String   @id @default(cuid())\n  patientId String\n  patient   Patient  @relation(fields: [patientId], references: [id])\n  doctorId  String\n  doctor    Doctor   @relation(fields: [doctorId], references: [id])\n  date      DateTime\n  status    String   @default(\"PENDING\")\n  reason    String?\n  createdAt DateTime @default(now())\n  updatedAt DateTime @updatedAt\n}\n\nmodel MedicalNote {\n  id            String         @id @default(cuid())\n  patientId     String\n  patient       Patient        @relation(fields: [patientId], references: [id])\n  doctorId      String\n  doctor        Doctor         @relation(fields: [doctorId], references: [id])\n  content       String\n  prescriptions Prescription[]\n  createdAt     DateTime       @default(now())\n  updatedAt     DateTime       @updatedAt\n}\n\nmodel Prescription {\n  id            String      @id @default(cuid())\n  medicalNoteId String\n  medicalNote   MedicalNote @relation(fields: [medicalNoteId], references: [id])\n  medication    String\n  dosage        String\n  duration      String\n  createdAt     DateTime    @default(now())\n}\n\nmodel HealthReport {\n  id        String   @id @default(cuid())\n  patientId String\n  patient   Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)\n  content   String\n  vitals    String?\n  createdAt DateTime @default(now())\n}\n",
+  "inlineSchemaHash": "fd4db3f15ba8c5c9d402c763d0cbd935e39309ca228a2fb4ef68835bf8838c04",
   "copyEngine": true
 }
 config.dirname = '/'
@@ -234,7 +243,9 @@ defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = undefined
 
 config.injectableEdgeEnv = () => ({
-  parsed: {}
+  parsed: {
+    DATABASE_URL: typeof globalThis !== 'undefined' && globalThis['DATABASE_URL'] || typeof process !== 'undefined' && process.env && process.env.DATABASE_URL || undefined
+  }
 })
 
 if (typeof globalThis !== 'undefined' && globalThis['DEBUG'] || typeof process !== 'undefined' && process.env && process.env.DEBUG || undefined) {
