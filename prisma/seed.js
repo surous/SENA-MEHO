@@ -35,6 +35,7 @@ async function main() {
       email: "sena@sena.com",
       password: hashedPassword,
       role: "DOCTOR",
+      image: "/assets/dr_sena_portrait.png",
       doctor: {
         create: {
           departmentId: cardiology.id,
