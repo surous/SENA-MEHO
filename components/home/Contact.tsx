@@ -9,13 +9,13 @@ export default function Contact() {
           <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[120px] -mr-40 -mt-40" />
           
           <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
-            <div className="text-left space-y-12">
+            <div className="text-left space-y-8">
               <div>
-                <h2 className="text-5xl lg:text-7xl font-black text-white tracking-tighter mb-8 leading-tight">
+                <h2 className="text-4xl lg:text-5xl font-black text-white tracking-tighter mb-6 leading-tight">
                     Let's talk <br /> 
                     <span className="text-blue-400">about health.</span>
                 </h2>
-                <p className="text-2xl text-slate-400 font-bold leading-relaxed">
+                <p className="text-lg text-slate-400 font-bold leading-relaxed">
                     Our support team is ready to assist you with any medical or administrative inquires.
                 </p>
               </div>

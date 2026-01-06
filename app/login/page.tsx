@@ -41,9 +41,9 @@ export default function LoginPage() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-white px-4 py-20">
       <div className="max-w-[480px] w-full">
-        <div className="text-center mb-12">
-          <h1 className="text-5xl font-black text-slate-900 tracking-tight mb-4">Welcome back</h1>
-          <p className="text-xl text-slate-500 font-bold">Secure login for Sena Medical Hospital</p>
+        <div className="text-center mb-10">
+          <h1 className="text-4xl font-black text-slate-900 tracking-tight mb-2">Welcome back</h1>
+          <p className="text-lg text-slate-500 font-bold">Secure login for Sena Medical Hospital</p>
         </div>
 
         <div className="bg-white border-2 border-slate-200 rounded-[2.5rem] p-12 shadow-2xl shadow-slate-100">

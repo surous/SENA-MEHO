@@ -23,9 +23,9 @@ export default function Doctors() {
   return (
     <section id="doctors" className="py-32 bg-slate-50 border-y border-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-24">
-          <h2 className="text-6xl lg:text-7xl font-black text-slate-900 tracking-tighter mb-8">World Class Experts</h2>
-          <p className="text-2xl text-slate-500 font-bold max-w-2xl mx-auto leading-relaxed">
+        <div className="text-center mb-20">
+          <h2 className="text-4xl lg:text-5xl font-black text-slate-900 tracking-tighter mb-6">World Class Experts</h2>
+          <p className="text-lg text-slate-500 font-bold max-w-2xl mx-auto leading-relaxed">
             Our medical staff consists of internationally recognized specialists dedicated to providing the highest level of care.
           </p>
         </div>

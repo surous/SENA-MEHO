@@ -17,12 +17,12 @@ export default function Hero() {
               <span>Future of Medical Care</span>
             </div>
             
-            <h1 className="text-7xl lg:text-8xl font-black text-slate-900 leading-[0.9] tracking-tighter mb-8 animate-in fade-in slide-in-from-left duration-700 delay-100">
+            <h1 className="text-5xl lg:text-6xl font-black text-slate-900 leading-[1.1] tracking-tighter mb-6 animate-in fade-in slide-in-from-left duration-700 delay-100">
                 Quality Care <br />
                 <span className="text-blue-600 underline decoration-blue-200 underline-offset-8">For Everyone.</span>
             </h1>
             
-            <p className="text-2xl text-slate-500 font-bold leading-relaxed max-w-xl mb-12 animate-in fade-in slide-in-from-left duration-700 delay-200">
+            <p className="text-lg text-slate-500 font-bold leading-relaxed max-w-xl mb-10 animate-in fade-in slide-in-from-left duration-700 delay-200">
               Sena Medical Hospital combines world-class expertise with cutting-edge technology to deliver personalized healthcare that puts you first.
             </p>
             

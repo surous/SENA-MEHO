@@ -39,10 +39,10 @@ export default function Services() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-12 mb-24">
           <div className="max-w-2xl">
-            <h2 className="text-6xl lg:text-7xl font-black text-slate-900 tracking-tighter mb-8 leading-none">
+            <h2 className="text-4xl lg:text-5xl font-black text-slate-900 tracking-tighter mb-6 leading-tight">
               Modern <br /> Healthcare.
             </h2>
-            <p className="text-2xl text-slate-500 font-bold leading-relaxed">
+            <p className="text-lg text-slate-500 font-bold leading-relaxed">
               We provide a comprehensive range of medical services driven by quality, efficiency, and patient success.
             </p>
           </div>
