@@ -92,7 +92,7 @@ export default function BookAppointment() {
                   <select
                     value={selectedDoctor}
                     onChange={(e) => setSelectedDoctor(e.target.value)}
-                    className="w-full px-6 py-5 rounded-[1.5rem] border border-slate-100 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all appearance-none bg-slate-50 font-bold text-slate-700"
+                    className="w-full px-6 py-5 rounded-[1.5rem] border border-slate-100 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all appearance-none bg-slate-50 font-bold text-slate-900"
                     required
                   >
                     <option value="">Choose a doctor</option>
@@ -114,7 +114,7 @@ export default function BookAppointment() {
                       type="date"
                       value={date}
                       onChange={(e) => setDate(e.target.value)}
-                      className="w-full px-6 py-5 rounded-[1.5rem] border border-slate-100 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all bg-slate-50 font-bold text-slate-700"
+                      className="w-full px-6 py-5 rounded-[1.5rem] border border-slate-100 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all bg-slate-50 font-bold text-slate-900"
                       required
                     />
                   </div>
@@ -124,7 +124,7 @@ export default function BookAppointment() {
                       <span>Time Slot</span>
                     </label>
                     <select
-                      className="w-full px-6 py-5 rounded-[1.5rem] border border-slate-100 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all appearance-none bg-slate-50 font-bold text-slate-700"
+                      className="w-full px-6 py-5 rounded-[1.5rem] border border-slate-100 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all appearance-none bg-slate-50 font-bold text-slate-900"
                       required
                     >
                       <option value="09:00">09:00 AM</option>
@@ -142,7 +142,7 @@ export default function BookAppointment() {
                     value={reason}
                     onChange={(e) => setReason(e.target.value)}
                     rows={4}
-                    className="w-full px-6 py-5 rounded-[1.5rem] border border-slate-100 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all resize-none bg-slate-50 font-bold text-slate-700"
+                    className="w-full px-6 py-5 rounded-[1.5rem] border border-slate-100 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all resize-none bg-slate-50 font-bold text-slate-900"
                     placeholder="Briefly describe your symptoms or reason for the appointment"
                     required
                   />

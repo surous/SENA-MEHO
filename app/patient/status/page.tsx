@@ -32,17 +32,20 @@ export default function PatientStatus() {
       const res = await fetch("/api/health-reports", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ content, vitals }),
+        body: JSON.stringify({ content, vitals: JSON.stringify(vitals) }),
       });
+
+      const data = await res.json();
 
       if (res.ok) {
         alert("Health report submitted successfully!");
         router.push("/patient");
       } else {
-        alert("Failed to submit report");
+        alert(`Failed to submit report: ${data.error || "Unknown error"}`);
       }
     } catch (error) {
-      console.error(error);
+      console.error("Report submission error:", error);
+      alert("Network error. Please check your connection and try again.");
     } finally {
       setLoading(false);
     }
@@ -85,7 +88,7 @@ export default function PatientStatus() {
                       placeholder="e.g. 72"
                       value={vitals.heartRate}
                       onChange={(e) => setVitals({...vitals, heartRate: e.target.value})}
-                      className="w-full px-6 py-5 rounded-[1.5rem] border border-slate-100 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all bg-slate-50 font-bold text-slate-700"
+                      className="w-full px-6 py-5 rounded-[1.5rem] border border-slate-100 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all bg-slate-50 font-bold text-slate-900"
                     />
                   </div>
                   <div className="space-y-4">
@@ -98,7 +101,7 @@ export default function PatientStatus() {
                       placeholder="e.g. 120/80"
                       value={vitals.bloodPressure}
                       onChange={(e) => setVitals({...vitals, bloodPressure: e.target.value})}
-                      className="w-full px-6 py-5 rounded-[1.5rem] border border-slate-100 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all bg-slate-50 font-bold text-slate-700"
+                      className="w-full px-6 py-5 rounded-[1.5rem] border border-slate-100 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all bg-slate-50 font-bold text-slate-900"
                     />
                   </div>
                   <div className="space-y-4">
@@ -111,7 +114,7 @@ export default function PatientStatus() {
                       placeholder="e.g. 70"
                       value={vitals.weight}
                       onChange={(e) => setVitals({...vitals, weight: e.target.value})}
-                      className="w-full px-6 py-5 rounded-[1.5rem] border border-slate-100 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all bg-slate-50 font-bold text-slate-700"
+                      className="w-full px-6 py-5 rounded-[1.5rem] border border-slate-100 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all bg-slate-50 font-bold text-slate-900"
                     />
                   </div>
                   <div className="space-y-4">
@@ -124,7 +127,7 @@ export default function PatientStatus() {
                       placeholder="e.g. 98"
                       value={vitals.sugar}
                       onChange={(e) => setVitals({...vitals, sugar: e.target.value})}
-                      className="w-full px-6 py-5 rounded-[1.5rem] border border-slate-100 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all bg-slate-50 font-bold text-slate-700"
+                      className="w-full px-6 py-5 rounded-[1.5rem] border border-slate-100 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all bg-slate-50 font-bold text-slate-900"
                     />
                   </div>
                </div>
@@ -138,7 +141,7 @@ export default function PatientStatus() {
                     value={content}
                     onChange={(e) => setContent(e.target.value)}
                     rows={6}
-                    className="w-full px-6 py-5 rounded-[1.5rem] border border-slate-100 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all resize-none bg-slate-50 font-bold text-slate-700"
+                    className="w-full px-6 py-5 rounded-[1.5rem] border border-slate-100 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all resize-none bg-slate-50 font-bold text-slate-900"
                     placeholder="Describe any symptoms, concerns, or general updates about your recovery/well-being..."
                     required
                   />

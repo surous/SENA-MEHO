@@ -22,13 +22,21 @@ import {
   MessageCircle
 } from "lucide-react";
 import Link from "next/link";
-import Image from "next/image";
+import PrepareVisitModal from "@/components/modals/PrepareVisitModal";
+import WellnessGoalModal from "@/components/modals/WellnessGoalModal";
 
 export default function PatientDashboard() {
   const { data: session } = useSession();
   const [appointments, setAppointments] = useState<any[]>([]);
   const [reports, setReports] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showPrepareModal, setShowPrepareModal] = useState(false);
+  const [showGoalModal, setShowGoalModal] = useState(false);
+  const [wellnessGoals, setWellnessGoals] = useState([
+    { goal: "Drink 2.5L Water", progress: 80, color: "blue" },
+    { goal: "30min Aerobics", progress: 60, color: "green" },
+    { goal: "Sleep 8 Hours", progress: 100, color: "purple" }
+  ]);
 
   useEffect(() => {
     async function fetchData() {
@@ -50,6 +58,15 @@ export default function PatientDashboard() {
     }
     fetchData();
   }, []);
+
+  const handleSaveGoal = (goal: any) => {
+    const newGoal = {
+      goal: `${goal.name} (${goal.target} ${goal.unit})`,
+      progress: 0,
+      color: goal.category === 'fitness' ? 'green' : goal.category === 'hydration' ? 'blue' : 'purple'
+    };
+    setWellnessGoals([...wellnessGoals, newGoal]);
+  };
 
   const healthMetrics = [
     { label: "Heart Rate", value: "72", unit: "bpm", icon: Heart, color: "text-red-500", bg: "bg-red-50", trend: "+2" },
@@ -105,7 +122,11 @@ export default function PatientDashboard() {
         {/* Health Metrics Ribbon */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {healthMetrics.map((metric, index) => (
-            <div key={index} className="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-xl shadow-slate-200/40 flex flex-col justify-between group hover:border-blue-200 transition-all cursor-pointer relative overflow-hidden">
+            <Link
+              key={index}
+              href="/patient/records"
+              className="bg-white p-6 rounded-[2.5rem] border border-slate-100 shadow-xl shadow-slate-200/40 flex flex-col justify-between group hover:border-blue-200 transition-all cursor-pointer relative overflow-hidden"
+            >
               <div className="relative z-10">
                 <div className={`w-14 h-14 rounded-2xl ${metric.bg} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
                   <metric.icon className={`w-7 h-7 ${metric.color}`} />
@@ -121,7 +142,7 @@ export default function PatientDashboard() {
               <div className="absolute top-0 right-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity">
                  <ArrowUpRight className="w-5 h-5 text-slate-300" />
               </div>
-            </div>
+            </Link>
           ))}
         </div>
 
@@ -178,7 +199,10 @@ export default function PatientDashboard() {
                   </div>
 
                   <div className="flex flex-col gap-3">
-                     <button className="bg-slate-900 text-white px-8 py-4 rounded-2xl font-black hover:bg-blue-600 transition-all shadow-lg active:scale-95">
+                     <button 
+                        onClick={() => setShowPrepareModal(true)}
+                        className="bg-slate-900 text-white px-8 py-4 rounded-2xl font-black hover:bg-blue-600 transition-all shadow-lg active:scale-95"
+                     >
                         Prepare Visit
                      </button>
                   </div>
@@ -192,10 +216,13 @@ export default function PatientDashboard() {
                     <FileText className="w-10 h-10 text-blue-400 mb-6" />
                     <h3 className="text-2xl font-black mb-2">Medical History</h3>
                     <p className="text-slate-400 font-medium mb-8">Access your laboratory results, prescriptions, and imaging reports.</p>
-                    <button className="w-full bg-white/10 backdrop-blur-md border border-white/20 text-white py-4 rounded-xl font-black hover:bg-white/20 transition-all flex items-center justify-center space-x-2">
+                    <Link 
+                       href="/patient/records"
+                       className="w-full bg-white/10 backdrop-blur-md border border-white/20 text-white py-4 rounded-xl font-black hover:bg-white/20 transition-all flex items-center justify-center space-x-2"
+                    >
                        <span>Open Records</span>
                        <ChevronRight className="w-5 h-5" />
-                    </button>
+                    </Link>
                   </div>
                   <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-blue-600/20 rounded-full blur-3xl group-hover:scale-150 transition-transform"></div>
                </div>
@@ -205,7 +232,10 @@ export default function PatientDashboard() {
                     <ClipboardList className="w-10 h-10 text-white/80 mb-6" />
                     <h3 className="text-2xl font-black mb-2">Patient Status</h3>
                     <p className="text-blue-100 font-medium mb-8">View your recent health reports and updates sent to your medical team.</p>
-                    <Link href="/patient/status" className="w-full bg-white text-blue-600 py-4 rounded-xl font-black hover:bg-slate-50 transition-all flex items-center justify-center space-x-2">
+                    <Link 
+                       href="/patient/status" 
+                       className="w-full bg-white text-blue-600 py-4 rounded-xl font-black hover:bg-slate-50 transition-all flex items-center justify-center space-x-2"
+                    >
                        <span>Update Status</span>
                        <ChevronRight className="w-5 h-5" />
                     </Link>
@@ -240,9 +270,12 @@ export default function PatientDashboard() {
                  )) : (
                    <p className="text-slate-400 text-sm font-bold text-center py-8">No recent reports found.</p>
                  )}
-                 <button className="w-full text-slate-400 font-black text-xs uppercase tracking-widest pt-4 hover:text-blue-600 transition-colors">
+                 <Link 
+                    href="/patient/reports"
+                    className="block w-full text-slate-400 font-black text-xs uppercase tracking-widest pt-4 hover:text-blue-600 transition-colors text-center"
+                 >
                     View Report History
-                 </button>
+                 </Link>
               </div>
             </section>
 
@@ -283,11 +316,7 @@ export default function PatientDashboard() {
                   <span>Wellness Goals</span>
                </h3>
                <div className="space-y-4">
-                  {[
-                    { goal: "Drink 2.5L Water", progress: 80, color: "blue" },
-                    { goal: "30min Aerobics", progress: 60, color: "green" },
-                    { goal: "Sleep 8 Hours", progress: 100, color: "purple" }
-                  ].map((g, i) => (
+                  {wellnessGoals.map((g, i) => (
                     <div key={i} className="space-y-2">
                        <div className="flex justify-between text-xs font-black uppercase tracking-widest italic">
                           <span className="text-slate-500">{g.goal}</span>
@@ -302,10 +331,28 @@ export default function PatientDashboard() {
                     </div>
                   ))}
                </div>
+               <button 
+                  onClick={() => setShowGoalModal(true)}
+                  className="w-full mt-8 py-4 bg-slate-50 rounded-2xl text-slate-400 font-bold text-xs uppercase tracking-widest hover:bg-slate-100 transition-all"
+               >
+                  Set New Goal
+               </button>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Modals */}
+      <PrepareVisitModal 
+        isOpen={showPrepareModal}
+        onClose={() => setShowPrepareModal(false)}
+        appointment={nextAppointment}
+      />
+      <WellnessGoalModal
+        isOpen={showGoalModal}
+        onClose={() => setShowGoalModal(false)}
+        onSave={handleSaveGoal}
+      />
     </div>
   );
 }

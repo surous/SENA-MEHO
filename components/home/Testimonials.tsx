@@ -1,8 +1,12 @@
 "use client";
 
-import { Star, Quote } from "lucide-react";
+import { Star, Quote, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useEffect } from "react";
 
 export default function Testimonials() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
+
   const testimonials = [
     {
       name: "Abdiwahab Mohamed",
@@ -27,6 +31,26 @@ export default function Testimonials() {
     }
   ];
 
+  useEffect(() => {
+    if (!isAutoPlaying) return;
+    
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, [isAutoPlaying, testimonials.length]);
+
+  const nextSlide = () => {
+    setIsAutoPlaying(false);
+    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
+  };
+
+  const prevSlide = () => {
+    setIsAutoPlaying(false);
+    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
+  };
+
   return (
     <section className="bg-white py-32 overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -40,7 +64,8 @@ export default function Testimonials() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {/* Desktop: Grid View */}
+        <div className="hidden md:grid grid-cols-1 md:grid-cols-3 gap-8">
           {testimonials.map((t, i) => (
             <div key={i} className="bg-slate-50 p-10 rounded-[3rem] relative group hover:bg-blue-600 transition-all duration-500">
               <Quote className="absolute top-10 right-10 w-12 h-12 text-blue-100 group-hover:text-blue-500 transition-colors" />
@@ -64,6 +89,67 @@ export default function Testimonials() {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Mobile: Carousel View */}
+        <div className="md:hidden relative">
+          <div className="bg-slate-50 p-10 rounded-[3rem] relative">
+            <Quote className="absolute top-10 right-10 w-12 h-12 text-blue-100" />
+            
+            <div className="flex gap-1 mb-6">
+              {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
+                <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" />
+              ))}
+            </div>
+
+            <p className="text-lg text-slate-700 font-bold mb-10 leading-relaxed">
+              "{testimonials[currentIndex].text}"
+            </p>
+
+            <div className="flex items-center gap-4">
+              <img 
+                src={testimonials[currentIndex].image} 
+                alt={testimonials[currentIndex].name} 
+                className="w-14 h-14 rounded-full object-cover border-4 border-white shadow-lg" 
+              />
+              <div>
+                <div className="font-black text-slate-900">{testimonials[currentIndex].name}</div>
+                <div className="text-sm font-bold text-slate-400">{testimonials[currentIndex].role}</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Carousel Controls */}
+          <div className="flex items-center justify-center gap-4 mt-8">
+            <button
+              onClick={prevSlide}
+              className="w-12 h-12 rounded-full bg-slate-100 hover:bg-blue-600 hover:text-white transition-all flex items-center justify-center"
+            >
+              <ChevronLeft className="w-5 h-5" />
+            </button>
+            
+            <div className="flex gap-2">
+              {testimonials.map((_, i) => (
+                <button
+                  key={i}
+                  onClick={() => {
+                    setCurrentIndex(i);
+                    setIsAutoPlaying(false);
+                  }}
+                  className={`h-2 rounded-full transition-all ${
+                    i === currentIndex ? "w-8 bg-blue-600" : "w-2 bg-slate-300"
+                  }`}
+                />
+              ))}
+            </div>
+
+            <button
+              onClick={nextSlide}
+              className="w-12 h-12 rounded-full bg-slate-100 hover:bg-blue-600 hover:text-white transition-all flex items-center justify-center"
+            >
+              <ChevronRight className="w-5 h-5" />
+            </button>
+          </div>
         </div>
       </div>
     </section>
