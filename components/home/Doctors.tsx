@@ -2,7 +2,7 @@ const doctors = [
   {
     name: "Dr. Sena",
     specialty: "Founder & Chief Medical Officer",
-    image: "https://images.unsplash.com/photo-1559839734-2b71f153678f?auto=format&fit=crop&q=80&w=800",
+    image: "/dr-sena.png",
     description: "Dr. Sena leads our medical team with 20+ years of experience in healthcare excellence.",
   },
   {
