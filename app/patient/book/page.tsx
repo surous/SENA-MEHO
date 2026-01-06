@@ -24,6 +24,7 @@ export default function BookAppointment() {
   useEffect(() => {
     // Simulated data
     setDoctors([
+      { id: "sena-doc", user: { name: "Dr. Sena" }, department: { name: "Cardiology" }, specialty: "Founder & Chief Medical Officer" },
       { id: "doc1", user: { name: "Dr. Sarah Wilson" }, department: { name: "Cardiology" }, specialty: "Senior Cardiologist" },
       { id: "doc2", user: { name: "Dr. James Miller" }, department: { name: "Emergency" }, specialty: "Emergency Physician" },
     ]);

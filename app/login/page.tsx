@@ -28,7 +28,19 @@ export default function LoginPage() {
       if (res?.error) {
         setError("Invalid credentials. Please check your email and password.");
       } else {
-        router.push("/");
+        // Fetch session to determine role and redirect
+        const sessionRes = await fetch("/api/auth/session");
+        const session = await sessionRes.json();
+        
+        if (session?.user?.role === "ADMIN") {
+          router.push("/admin");
+        } else if (session?.user?.role === "DOCTOR") {
+          router.push("/doctor");
+        } else if (session?.user?.role === "PATIENT") {
+          router.push("/patient");
+        } else {
+          router.push("/");
+        }
         router.refresh();
       }
     } catch (err) {
