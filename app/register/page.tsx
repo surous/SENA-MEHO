@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { User, Mail, Lock, AlertCircle, ArrowRight } from "lucide-react";
 
 export default function RegisterPage() {
   const [name, setName] = useState("");
@@ -25,90 +26,114 @@ export default function RegisterPage() {
       });
 
       if (res.ok) {
-        router.push("/login");
+        router.push("/login?registered=true");
       } else {
         const data = await res.json();
-        setError(data.message || "Something went wrong");
+        setError(data.message || "Registration failed. Please try again.");
       }
     } catch (err) {
-      setError("An unexpected error occurred");
+      setError("System temporary unavailable. Please try again later.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
-      <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-slate-900">Create Account</h1>
-          <p className="text-slate-500 mt-2">Join Sena Medical Hospital today</p>
+    <div className="min-h-screen flex items-center justify-center bg-white px-4 py-32">
+      <div className="max-w-[520px] w-full">
+        <div className="text-center mb-12">
+          <h1 className="text-5xl font-black text-slate-900 tracking-tight mb-4">Create account</h1>
+          <p className="text-xl text-slate-500 font-bold">Join Sena Medical Hospital today</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
-          {error && (
-            <div className="bg-red-50 text-red-600 p-3 rounded-lg text-sm font-medium">
-              {error}
+        <div className="bg-white border-2 border-slate-200 rounded-[2.5rem] p-12 shadow-2xl shadow-slate-100">
+          <form onSubmit={handleSubmit} className="space-y-8">
+            {error && (
+              <div className="bg-red-50 border-2 border-red-200 text-red-600 p-5 rounded-2xl flex items-center gap-4">
+                <AlertCircle className="w-6 h-6 flex-shrink-0" />
+                <span className="font-bold text-lg leading-tight">{error}</span>
+              </div>
+            )}
+            
+            <div className="space-y-4">
+              <label htmlFor="name" className="block text-sm font-black text-slate-500 uppercase tracking-widest px-1">
+                Full Name
+              </label>
+              <div className="relative group">
+                <User className="absolute left-5 top-5 w-6 h-6 text-slate-400 group-focus-within:text-blue-600 transition-colors" />
+                <input
+                  id="name"
+                  type="text"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="w-full pl-16 pr-6 py-5 rounded-2xl border-2 border-slate-100 bg-slate-50 text-slate-900 text-xl font-bold focus:border-blue-600 focus:bg-white outline-none transition-all placeholder:text-slate-300"
+                  placeholder="Your Name"
+                  required
+                />
+              </div>
             </div>
-          )}
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
-              Full Name
-            </label>
-            <input
-              type="text"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-              placeholder="John Doe"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
-              Email Address
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-              placeholder="name@example.com"
-              required
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">
-              Password
-            </label>
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all"
-              placeholder="••••••••"
-              required
-            />
-          </div>
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl transition-all disabled:opacity-50"
-          >
-            {loading ? "Creating account..." : "Sign Up"}
-          </button>
-        </form>
 
-        <div className="mt-6 text-center">
-          <p className="text-slate-600">
-            Already have an account?{" "}
-            <Link
-              href="/login"
-              className="text-blue-600 font-semibold hover:underline"
+            <div className="space-y-4">
+              <label htmlFor="email" className="block text-sm font-black text-slate-500 uppercase tracking-widest px-1">
+                Email Address
+              </label>
+              <div className="relative group">
+                <Mail className="absolute left-5 top-5 w-6 h-6 text-slate-400 group-focus-within:text-blue-600 transition-colors" />
+                <input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="w-full pl-16 pr-6 py-5 rounded-2xl border-2 border-slate-100 bg-slate-50 text-slate-900 text-xl font-bold focus:border-blue-600 focus:bg-white outline-none transition-all placeholder:text-slate-300"
+                  placeholder="name@email.com"
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <label htmlFor="password" className="block text-sm font-black text-slate-500 uppercase tracking-widest px-1">
+                Secret Password
+              </label>
+              <div className="relative group">
+                <Lock className="absolute left-5 top-5 w-6 h-6 text-slate-400 group-focus-within:text-blue-600 transition-colors" />
+                <input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="w-full pl-16 pr-6 py-5 rounded-2xl border-2 border-slate-100 bg-slate-50 text-slate-900 text-xl font-bold focus:border-blue-600 focus:bg-white outline-none transition-all placeholder:text-slate-300"
+                  placeholder="••••••••"
+                  required
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-slate-900 text-white font-black py-6 rounded-2xl text-2xl hover:bg-blue-600 transition-all disabled:opacity-50 flex items-center justify-center gap-3 active:scale-[0.98]"
             >
-              Log in
-            </Link>
-          </p>
+              {loading ? "Creating..." : (
+                <>
+                    <span>Register Now</span>
+                    <ArrowRight className="w-7 h-7" />
+                </>
+              )}
+            </button>
+          </form>
+
+          <div className="mt-12 pt-8 border-t border-slate-100 text-center">
+            <p className="text-lg text-slate-500 font-bold">
+              Already have an account? {" "}
+              <Link
+                href="/login"
+                className="text-blue-600 font-black hover:underline underline-offset-8"
+              >
+                Sign in
+              </Link>
+            </p>
+          </div>
         </div>
       </div>
     </div>

@@ -1,87 +1,79 @@
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin, SendHorizontal } from "lucide-react";
 
 export default function Contact() {
   return (
-    <section id="contact" className="py-24 bg-white">
+    <section id="contact" className="py-32 bg-white mb-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-          <div className="space-y-8">
-            <h2 className="text-slate-900 text-5xl font-black mb-6">Contact Sena Medical</h2>
-            <p className="text-xl text-slate-700 leading-relaxed font-medium mb-10">
-              We are available 24/7 for emergency and regular inquiries. Please reach out to us using the information below or the contact form.
-            </p>
+        <div className="bg-slate-900 rounded-[4rem] p-12 lg:p-24 overflow-hidden relative shadow-2xl">
+          {/* Decorative background elements */}
+          <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-600/20 rounded-full blur-[120px] -mr-40 -mt-40" />
+          
+          <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+            <div className="text-left space-y-12">
+              <div>
+                <h2 className="text-5xl lg:text-7xl font-black text-white tracking-tighter mb-8 leading-tight">
+                    Let's talk <br /> 
+                    <span className="text-blue-400">about health.</span>
+                </h2>
+                <p className="text-2xl text-slate-400 font-bold leading-relaxed">
+                    Our support team is ready to assist you with any medical or administrative inquires.
+                </p>
+              </div>
 
-            <div className="space-y-8">
-              <div className="flex items-center space-x-6">
-                <div className="w-16 h-16 bg-slate-900 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Phone className="w-8 h-8 text-white" />
+              <div className="space-y-10">
+                <div className="flex items-center gap-6">
+                    <div className="w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center">
+                        <Phone className="w-8 h-8 text-white" />
+                    </div>
+                    <div>
+                        <p className="text-slate-400 font-bold uppercase tracking-widest text-sm mb-1">Emergency</p>
+                        <p className="text-2xl font-black text-white">+1 (555) 755-SE NA</p>
+                    </div>
                 </div>
-                <div>
-                  <div className="font-black text-2xl text-slate-900">Phone</div>
-                  <div className="text-xl text-slate-700 font-bold">+1 (555) 123-4567</div>
-                </div>
-              </div>
-              <div className="flex items-center space-x-6">
-                <div className="w-16 h-16 bg-slate-900 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <Mail className="w-8 h-8 text-white" />
-                </div>
-                <div>
-                  <div className="font-black text-2xl text-slate-900">Email</div>
-                  <div className="text-xl text-slate-700 font-bold">support@sena.com</div>
-                </div>
-              </div>
-              <div className="flex items-center space-x-6">
-                <div className="w-16 h-16 bg-slate-900 rounded-lg flex items-center justify-center flex-shrink-0">
-                  <MapPin className="w-8 h-8 text-white" />
-                </div>
-                <div>
-                  <div className="font-black text-2xl text-slate-900">Location</div>
-                  <div className="text-xl text-slate-700 font-bold">123 Hospital St, Medical District, NY</div>
+                <div className="flex items-center gap-6">
+                    <div className="w-16 h-16 bg-slate-800 rounded-2xl flex items-center justify-center">
+                        <Mail className="w-8 h-8 text-white" />
+                    </div>
+                    <div>
+                        <p className="text-slate-400 font-bold uppercase tracking-widest text-sm mb-1">Email Us</p>
+                        <p className="text-2xl font-black text-white">care@sena.com</p>
+                    </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <div className="bg-slate-50 p-10 rounded-2xl border-4 border-slate-200">
-            <form className="space-y-8">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-                <div>
-                  <label className="block text-lg font-black text-slate-900 mb-3">First Name</label>
-                  <input
-                    type="text"
-                    className="w-full px-5 py-4 rounded-lg border-2 border-slate-300 focus:border-blue-600 outline-none transition-all text-lg font-medium"
-                    placeholder="John"
-                  />
-                </div>
-                <div>
-                  <label className="block text-lg font-black text-slate-900 mb-3">Last Name</label>
-                  <input
-                    type="text"
-                    className="w-full px-5 py-4 rounded-lg border-2 border-slate-300 focus:border-blue-600 outline-none transition-all text-lg font-medium"
-                    placeholder="Doe"
-                  />
-                </div>
-              </div>
-              <div>
-                <label className="block text-lg font-black text-slate-900 mb-3">Email</label>
-                <input
-                  type="email"
-                  className="w-full px-5 py-4 rounded-lg border-2 border-slate-300 focus:border-blue-600 outline-none transition-all text-lg font-medium"
-                  placeholder="john@example.com"
-                />
-              </div>
-              <div>
-                <label className="block text-lg font-black text-slate-900 mb-3">Message</label>
-                <textarea
-                  rows={4}
-                  className="w-full px-5 py-4 rounded-lg border-2 border-slate-300 focus:border-blue-600 outline-none transition-all text-lg font-medium resize-none"
-                  placeholder="How can we help you?"
-                />
-              </div>
-              <button className="w-full bg-slate-900 text-white font-black py-5 rounded-lg text-xl hover:bg-black transition-all">
-                Send Message
-              </button>
-            </form>
+            <div className="bg-white p-12 lg:p-16 rounded-[3rem] shadow-2xl">
+                <form className="space-y-8">
+                    <div className="space-y-4">
+                        <label className="text-sm font-black text-slate-500 uppercase tracking-widest px-1">Full Name</label>
+                        <input
+                            type="text"
+                            placeholder="John Doe"
+                            className="w-full px-6 py-5 rounded-2xl bg-slate-50 border-2 border-slate-100 text-xl font-bold text-slate-900 focus:border-blue-600 outline-none transition-all"
+                        />
+                    </div>
+                    <div className="space-y-4">
+                        <label className="text-sm font-black text-slate-500 uppercase tracking-widest px-1">Email Address</label>
+                        <input
+                            type="email"
+                            placeholder="john@email.com"
+                            className="w-full px-6 py-5 rounded-2xl bg-slate-50 border-2 border-slate-100 text-xl font-bold text-slate-900 focus:border-blue-600 outline-none transition-all"
+                        />
+                    </div>
+                    <div className="space-y-4">
+                        <label className="text-sm font-black text-slate-500 uppercase tracking-widest px-1">How can we help?</label>
+                        <textarea
+                            rows={3}
+                            placeholder="Tell us about your needs..."
+                            className="w-full px-6 py-5 rounded-2xl bg-slate-50 border-2 border-slate-100 text-xl font-bold text-slate-900 focus:border-blue-600 outline-none transition-all resize-none"
+                        />
+                    </div>
+                    <button className="w-full bg-blue-600 text-white font-black py-6 rounded-2xl text-2xl hover:bg-slate-900 transition-all flex items-center justify-center gap-3 shadow-xl shadow-blue-200 hover:shadow-none">
+                        <span>Send Message</span>
+                        <SendHorizontal className="w-7 h-7" />
+                    </button>
+                </form>
+            </div>
           </div>
         </div>
       </div>

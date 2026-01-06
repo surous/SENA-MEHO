@@ -3,58 +3,65 @@ import { Stethoscope, Ambulance, FlaskConical, Pill, Clock, HeartPulse } from "l
 const services = [
   {
     title: "Emergency Care",
-    description: "24/7 immediate assistance for critical medical conditions and accidents.",
+    description: "Instant medical response for critical situations, available 24 hours a day.",
     icon: Ambulance,
   },
   {
-    title: "OPD Services",
-    description: "Expert consultations and diagnostic services for outpatients.",
-    icon: Stethoscope,
+    title: "Cardiology",
+    description: "Advanced heart care and surgical procedures by top-tier specialists.",
+    icon: HeartPulse,
   },
   {
-    title: "Laboratory Tests",
-    description: "Advanced diagnostic testing with highly accurate results.",
+    title: "Diagnostics",
+    description: "State-of-the-art laboratory testing for precise medical results.",
     icon: FlaskConical,
   },
   {
     title: "Pharmacy",
-    description: "In-house pharmacy providing authentic medications and expert advice.",
+    description: "Certified medical dispensary providing quality-assured medications.",
     icon: Pill,
   },
   {
-    title: "Cardiology",
-    description: "Comprehensive heart care by world-renowned specialists.",
-    icon: HeartPulse,
+    title: "Pediatrics",
+    description: "Specialized care for children and infants in a safe environment.",
+    icon: Stethoscope,
   },
   {
-    title: "24/7 Support",
-    description: "Round-the-clock medical support and patient assistance.",
+    title: "Consultation",
+    description: "Expert advice and health monitoring from senior medical staff.",
     icon: Clock,
   },
 ];
 
 export default function Services() {
   return (
-    <section id="services" className="py-24 bg-white border-b border-slate-200">
+    <section id="services" className="py-32 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-left mb-16 max-w-3xl">
-          <h2 className="text-slate-900 text-5xl font-black mb-6">Our Medical Services</h2>
-          <p className="text-xl text-slate-700 leading-relaxed font-medium">
-            We provide essential healthcare services designed for reliability and clear communication with our patients.
-          </p>
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-12 mb-24">
+          <div className="max-w-2xl">
+            <h2 className="text-6xl lg:text-7xl font-black text-slate-900 tracking-tighter mb-8 leading-none">
+              Modern <br /> Healthcare.
+            </h2>
+            <p className="text-2xl text-slate-500 font-bold leading-relaxed">
+              We provide a comprehensive range of medical services driven by quality, efficiency, and patient success.
+            </p>
+          </div>
+          <div className="hidden lg:block pb-4">
+             <div className="h-1 w-32 bg-blue-600 rounded-full" />
+          </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
             <div
               key={index}
-              className="p-10 rounded-xl border-2 border-slate-200 bg-white hover:border-blue-600 transition-all group"
+              className="p-12 rounded-[3rem] bg-slate-50 border border-slate-100 hover:border-blue-200 hover:bg-white hover:shadow-2xl hover:shadow-blue-100 transition-all duration-500 group"
             >
-              <div className="w-16 h-16 rounded-lg bg-slate-900 flex items-center justify-center mb-8">
-                <service.icon className="w-8 h-8 text-white" />
+              <div className="w-20 h-20 rounded-2xl bg-white border border-slate-200 flex items-center justify-center mb-10 group-hover:bg-slate-900 group-hover:border-slate-900 transition-colors">
+                <service.icon className="w-10 h-10 text-slate-900 group-hover:text-white transition-colors" />
               </div>
-              <h4 className="text-2xl font-black text-slate-900 mb-4">{service.title}</h4>
-              <p className="text-lg text-slate-600 leading-relaxed font-medium">{service.description}</p>
+              <h4 className="text-3xl font-black text-slate-900 mb-4">{service.title}</h4>
+              <p className="text-xl text-slate-500 font-bold leading-relaxed">{service.description}</p>
             </div>
           ))}
         </div>
