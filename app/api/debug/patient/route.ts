@@ -12,10 +12,10 @@ export async function GET(req: Request) {
       return NextResponse.json({ error: "Not authenticated" }, { status: 401 });
     }
 
-    console.log("Session user:", session.user);
+    console.log("Session user:", (session as any).user);
 
     const patient = await prisma.patient.findUnique({
-      where: { userId: session.user.id },
+      where: { userId: (session as any).user.id },
       include: {
         user: true,
       },
@@ -23,10 +23,10 @@ export async function GET(req: Request) {
 
     if (!patient) {
       // Try to create a patient profile if it doesn't exist
-      if (session.user.role === "PATIENT") {
+      if ((session as any).user.role === "PATIENT") {
         const newPatient = await prisma.patient.create({
           data: {
-            userId: session.user.id,
+            userId: (session as any).user.id,
           },
           include: {
             user: true,
@@ -41,8 +41,8 @@ export async function GET(req: Request) {
       
       return NextResponse.json({
         error: "Patient profile not found",
-        userId: session.user.id,
-        role: session.user.role,
+        userId: (session as any).user.id,
+        role: (session as any).user.role,
       }, { status: 404 });
     }
 

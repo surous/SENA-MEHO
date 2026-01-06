@@ -6,7 +6,7 @@ import { prisma } from "@/lib/prisma";
 export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session || session.user.role !== "PATIENT") {
+    if (!session || (session as any).user.role !== "PATIENT") {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -14,7 +14,7 @@ export async function POST(req: Request) {
     const { doctorId, date, reason } = body;
 
     const patient = await prisma.patient.findUnique({
-      where: { userId: session.user.id },
+      where: { userId: (session as any).user.id },
     });
 
     if (!patient) {
@@ -54,9 +54,9 @@ export async function GET(req: Request) {
 
     let appointments;
 
-    if (session.user.role === "DOCTOR") {
+    if ((session as any).user.role === "DOCTOR") {
       const doctor = await prisma.doctor.findUnique({
-        where: { userId: session.user.id },
+        where: { userId: (session as any).user.id },
       });
       if (!doctor) return NextResponse.json([]);
       
@@ -71,9 +71,9 @@ export async function GET(req: Request) {
         },
         orderBy: { date: "asc" },
       });
-    } else if (session.user.role === "PATIENT") {
+    } else if ((session as any).user.role === "PATIENT") {
       const patient = await prisma.patient.findUnique({
-        where: { userId: session.user.id },
+        where: { userId: (session as any).user.id },
       });
       if (!patient) return NextResponse.json([]);
 
