@@ -19,6 +19,16 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { 
+  BarChart, 
+  Bar, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  ResponsiveContainer,
+  Cell
+} from "recharts";
 
 export default function DoctorDashboard() {
   const { data: session } = useSession();
@@ -97,6 +107,82 @@ export default function DoctorDashboard() {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Analytics & Resources Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+           {/* Patient Demographics */}
+           <div className="lg:col-span-8 bg-white p-10 rounded-[3rem] border border-slate-100 shadow-2xl shadow-slate-200/50">
+              <div className="flex items-center justify-between mb-8">
+                 <div>
+                    <h3 className="text-2xl font-black text-slate-900 tracking-tight">Patient Demographics</h3>
+                    <p className="text-slate-400 text-sm font-bold">Clinical distribution by age group</p>
+                 </div>
+                 <select className="bg-slate-50 border border-slate-100 rounded-xl px-4 py-2 text-xs font-black uppercase tracking-widest text-slate-500 outline-none">
+                    <option>Weekly View</option>
+                    <option>Monthly View</option>
+                 </select>
+              </div>
+              <div className="h-72 w-full">
+                 <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={[
+                       { age: '0-18', patients: 120, color: '#3b82f6' },
+                       { age: '19-35', patients: 250, color: '#8b5cf6' },
+                       { age: '36-50', patients: 380, color: '#ec4899' },
+                       { age: '51-70', patients: 420, color: '#f59e0b' },
+                       { age: '70+', patients: 180, color: '#10b981' },
+                    ]}>
+                       <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
+                       <XAxis dataKey="age" axisLine={false} tickLine={false} tick={{fill: '#94a3b8', fontSize: 10, fontWeight: 'bold'}} dy={10} />
+                       <Tooltip cursor={{fill: '#f8fafc'}} contentStyle={{borderRadius: '16px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)'}} />
+                       <Bar dataKey="patients" radius={[8, 8, 0, 0]} barSize={40}>
+                          { [120, 250, 380, 420, 180].map((entry, index) => (
+                             <Cell key={`cell-${index}`} fill={['#3b82f6', '#8b5cf6', '#ec4899', '#f59e0b', '#10b981'][index]} />
+                          ))}
+                       </Bar>
+                    </BarChart>
+                 </ResponsiveContainer>
+              </div>
+           </div>
+
+           {/* Quick Resources */}
+           <div className="lg:col-span-4 space-y-8">
+              <div className="bg-slate-900 p-8 rounded-[3rem] text-white relative overflow-hidden group">
+                 <div className="relative z-10">
+                    <h3 className="text-xl font-black mb-6">Clinical Resources</h3>
+                    <div className="grid grid-cols-2 gap-4">
+                       {[
+                         { label: "ICD-10", icon: Stethoscope },
+                         { label: "Medication", icon: Notebook },
+                         { label: "Guidelines", icon: Search },
+                         { label: "Calculators", icon: Clock }
+                       ].map((res, i) => (
+                         <button key={i} className="bg-white/5 border border-white/10 p-4 rounded-2xl flex flex-col items-center gap-3 hover:bg-blue-600 transition-all">
+                            <res.icon className="w-5 h-5 text-blue-400 group-hover:text-white" />
+                            <span className="text-[10px] font-black uppercase tracking-widest">{res.label}</span>
+                         </button>
+                       ))}
+                    </div>
+                 </div>
+                 <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-blue-600/20 rounded-full blur-3xl"></div>
+              </div>
+
+              <div className="bg-blue-50 border border-blue-100 p-8 rounded-[3rem]">
+                 <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-200">
+                       <TrendingUp className="w-5 h-5 text-white" />
+                    </div>
+                    <div>
+                       <div className="text-[10px] font-black text-blue-600 uppercase tracking-widest">Efficiency Score</div>
+                       <div className="text-xl font-black text-slate-900">92/100</div>
+                    </div>
+                 </div>
+                 <p className="text-xs font-bold text-slate-500 leading-relaxed">
+                    You are performing 15% better than your monthly average targets. 
+                    <span className="text-blue-600"> Keep it up!</span>
+                 </p>
+              </div>
+           </div>
         </div>
 
         {/* Main Content: Schedule */}

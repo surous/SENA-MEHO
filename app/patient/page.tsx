@@ -15,7 +15,9 @@ import {
   Bell,
   ArrowUpRight,
   Stethoscope,
-  MapPin
+  MapPin,
+  ShieldCheck,
+  Star
 } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
@@ -235,6 +237,70 @@ export default function PatientDashboard() {
                  </button>
               </div>
             </section>
+
+            {/* Insurance Card Widget */}
+            <div className="bg-gradient-to-br from-slate-900 to-slate-800 rounded-[2.5rem] p-8 text-white relative overflow-hidden shadow-2xl shadow-slate-300">
+               <div className="relative z-10">
+                  <div className="flex justify-between items-start mb-12">
+                     <div className="bg-white/10 p-3 rounded-xl backdrop-blur-md">
+                        <ShieldCheck className="w-6 h-6 text-blue-400" />
+                     </div>
+                     <div className="text-right">
+                        <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">Insurance Provider</div>
+                        <div className="text-sm font-bold">Aetna Health Premium Plus</div>
+                     </div>
+                  </div>
+                  <div className="space-y-6">
+                     <div>
+                        <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Policy Member</div>
+                        <div className="text-xl font-black">{session?.user?.name || "Patient Member"}</div>
+                     </div>
+                     <div className="flex justify-between items-end">
+                        <div>
+                           <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-1">Member ID</div>
+                           <div className="text-lg font-mono font-bold tracking-widest text-blue-300">SENA-8892-0012</div>
+                        </div>
+                        <div className="w-12 h-12 bg-white rounded-lg p-1">
+                           <div className="w-full h-full bg-slate-100 flex items-center justify-center border border-slate-200">
+                              <span className="text-[8px] font-black text-slate-900">SENA</span>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div className="absolute top-1/2 -right-10 w-40 h-40 bg-blue-500/10 rounded-full blur-3xl"></div>
+            </div>
+
+            {/* Weekly Wellness Goals */}
+            <div className="bg-white rounded-[2.5rem] border border-slate-100 shadow-2xl shadow-slate-200/50 p-8">
+               <h3 className="text-xl font-black text-slate-900 mb-6 flex items-center gap-2">
+                  <Star className="w-5 h-5 text-amber-500" />
+                  <span>Wellness Goals</span>
+               </h3>
+               <div className="space-y-4">
+                  {[
+                    { goal: "Drink 2.5L Water", progress: 80, color: "blue" },
+                    { goal: "30min Aerobics", progress: 60, color: "green" },
+                    { goal: "Sleep 8 Hours", progress: 100, color: "purple" }
+                  ].map((g, i) => (
+                    <div key={i} className="space-y-2">
+                       <div className="flex justify-between text-xs font-black uppercase tracking-widest italic">
+                          <span className="text-slate-500">{g.goal}</span>
+                          <span className={`text-${g.color}-600`}>{g.progress}%</span>
+                       </div>
+                       <div className="h-2 w-full bg-slate-50 rounded-full overflow-hidden">
+                          <div 
+                             className={`h-full bg-${g.color}-500 rounded-full transition-all duration-1000`} 
+                             style={{ width: `${g.progress}%` }}
+                          ></div>
+                       </div>
+                    </div>
+                  ))}
+               </div>
+               <button className="w-full mt-8 py-4 bg-slate-50 rounded-2xl text-slate-400 font-bold text-xs uppercase tracking-widest hover:bg-slate-100 transition-all">
+                  Set New Goal
+               </button>
+            </div>
 
             <div className="bg-slate-900 rounded-[2.5rem] p-8 text-white">
                <h3 className="text-xl font-black mb-6 flex items-center space-x-2">

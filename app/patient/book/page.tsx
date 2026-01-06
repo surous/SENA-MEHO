@@ -43,93 +43,100 @@ export default function BookAppointment() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-12">
-      <Link href="/patient" className="inline-flex items-center space-x-2 text-slate-500 hover:text-blue-600 mb-8 transition-colors">
-        <ChevronLeft className="w-5 h-5" />
-        <span className="font-semibold">Back to Dashboard</span>
-      </Link>
+    <div className="min-h-screen bg-white">
+      <div className="max-w-3xl mx-auto px-4 py-16">
+        <Link href="/patient" className="inline-flex items-center space-x-2 text-slate-400 hover:text-blue-600 mb-10 transition-colors group">
+          <div className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center group-hover:bg-blue-50 transition-colors">
+            <ChevronLeft className="w-5 h-5" />
+          </div>
+          <span className="font-black uppercase tracking-widest text-xs">Back to Command Center</span>
+        </Link>
 
-      <div className="bg-white rounded-[2rem] border border-slate-100 shadow-xl overflow-hidden">
-        <div className="bg-blue-600 p-8 text-white">
-          <h1 className="text-3xl font-bold">Book Appointment</h1>
-          <p className="opacity-90 mt-1">Schedule a consultation with our specialists</p>
-        </div>
-
-        <form onSubmit={handleSubmit} className="p-8 space-y-8">
-          <div className="space-y-6">
-             <div>
-                <label className="block text-sm font-bold text-slate-700 mb-3 flex items-center space-x-2">
-                  <User className="w-4 h-4 text-blue-600" />
-                  <span>Select Specialist</span>
-                </label>
-                <select
-                  value={selectedDoctor}
-                  onChange={(e) => setSelectedDoctor(e.target.value)}
-                  className="w-full px-4 py-4 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none transition-all appearance-none bg-slate-50 font-medium"
-                  required
-                >
-                  <option value="">Choose a doctor</option>
-                  {doctors.map((doc) => (
-                    <option key={doc.id} value={doc.id}>
-                      {doc.user.name} ({doc.department.name})
-                    </option>
-                  ))}
-                </select>
-             </div>
-
-             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-3 flex items-center space-x-2">
-                    <Calendar className="w-4 h-4 text-blue-600" />
-                    <span>Preferred Date</span>
-                  </label>
-                  <input
-                    type="date"
-                    value={date}
-                    onChange={(e) => setDate(e.target.value)}
-                    className="w-full px-4 py-4 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none transition-all bg-slate-50"
-                    required
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-bold text-slate-700 mb-3 flex items-center space-x-2">
-                    <Clock className="w-4 h-4 text-blue-600" />
-                    <span>Time Slot</span>
-                  </label>
-                  <select
-                    className="w-full px-4 py-4 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none transition-all appearance-none bg-slate-50"
-                    required
-                  >
-                    <option value="09:00">09:00 AM</option>
-                    <option value="10:00">10:00 AM</option>
-                    <option value="11:00">11:00 AM</option>
-                    <option value="14:00">02:00 PM</option>
-                    <option value="15:00">03:00 PM</option>
-                  </select>
-                </div>
-             </div>
-
-             <div>
-                <label className="block text-sm font-bold text-slate-700 mb-3">Reason for Visit</label>
-                <textarea
-                  value={reason}
-                  onChange={(e) => setReason(e.target.value)}
-                  rows={4}
-                  className="w-full px-4 py-4 rounded-2xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none transition-all resize-none bg-slate-50"
-                  placeholder="Briefly describe your symptoms or reason for the appointment"
-                  required
-                />
-             </div>
+        <div className="bg-white rounded-[3rem] border border-slate-100 shadow-2xl shadow-slate-200/50 overflow-hidden">
+          <div className="bg-slate-900 p-12 text-white relative overflow-hidden">
+            <div className="relative z-10">
+              <h1 className="text-4xl font-black tracking-tight">Schedule Consultation</h1>
+              <p className="text-blue-400 font-bold mt-2">Book a session with our board-certified specialists</p>
+            </div>
+            <div className="absolute -top-10 -right-10 w-40 h-40 bg-blue-600/20 rounded-full blur-3xl"></div>
           </div>
 
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full bg-blue-600 text-white font-bold py-4 rounded-2xl shadow-xl shadow-blue-200 hover:bg-blue-700 transition-all disabled:opacity-50"
-          >
-            {loading ? "Processing..." : "Confirm Booking"}
-          </button>
-        </form>
+          <form onSubmit={handleSubmit} className="p-12 space-y-10">
+            <div className="space-y-8">
+               <div>
+                  <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                    <User className="w-4 h-4 text-blue-600" />
+                    <span>Select Specialist</span>
+                  </label>
+                  <select
+                    value={selectedDoctor}
+                    onChange={(e) => setSelectedDoctor(e.target.value)}
+                    className="w-full px-6 py-5 rounded-[1.5rem] border border-slate-100 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all appearance-none bg-slate-50 font-bold text-slate-700"
+                    required
+                  >
+                    <option value="">Choose a doctor</option>
+                    {doctors.map((doc) => (
+                      <option key={doc.id} value={doc.id}>
+                        {doc.user.name} — {doc.specialty}
+                      </option>
+                    ))}
+                  </select>
+               </div>
+
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div>
+                    <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                      <Calendar className="w-4 h-4 text-blue-600" />
+                      <span>Preferred Date</span>
+                    </label>
+                    <input
+                      type="date"
+                      value={date}
+                      onChange={(e) => setDate(e.target.value)}
+                      className="w-full px-6 py-5 rounded-[1.5rem] border border-slate-100 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all bg-slate-50 font-bold text-slate-700"
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-4 flex items-center gap-2">
+                      <Clock className="w-4 h-4 text-blue-600" />
+                      <span>Time Slot</span>
+                    </label>
+                    <select
+                      className="w-full px-6 py-5 rounded-[1.5rem] border border-slate-100 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all appearance-none bg-slate-50 font-bold text-slate-700"
+                      required
+                    >
+                      <option value="09:00">09:00 AM</option>
+                      <option value="10:00">10:00 AM</option>
+                      <option value="11:00">11:00 AM</option>
+                      <option value="14:00">02:00 PM</option>
+                      <option value="15:00">03:00 PM</option>
+                    </select>
+                  </div>
+               </div>
+
+               <div>
+                  <label className="block text-xs font-black text-slate-400 uppercase tracking-widest mb-4">Reason for Visit</label>
+                  <textarea
+                    value={reason}
+                    onChange={(e) => setReason(e.target.value)}
+                    rows={4}
+                    className="w-full px-6 py-5 rounded-[1.5rem] border border-slate-100 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all resize-none bg-slate-50 font-bold text-slate-700"
+                    placeholder="Briefly describe your symptoms or reason for the appointment"
+                    required
+                  />
+               </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-blue-600 text-white font-black py-6 rounded-[1.5rem] shadow-2xl shadow-blue-200 hover:bg-blue-700 hover:-translate-y-1 transition-all disabled:opacity-50"
+            >
+              {loading ? "Processing Clinical Request..." : "Confirm Medical Booking"}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );
