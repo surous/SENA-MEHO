@@ -48,6 +48,11 @@ export type MedicalNote = $Result.DefaultSelection<Prisma.$MedicalNotePayload>
  * 
  */
 export type Prescription = $Result.DefaultSelection<Prisma.$PrescriptionPayload>
+/**
+ * Model HealthReport
+ * 
+ */
+export type HealthReport = $Result.DefaultSelection<Prisma.$HealthReportPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -241,6 +246,16 @@ export class PrismaClient<
     * ```
     */
   get prescription(): Prisma.PrescriptionDelegate<ExtArgs>;
+
+  /**
+   * `prisma.healthReport`: Exposes CRUD operations for the **HealthReport** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more HealthReports
+    * const healthReports = await prisma.healthReport.findMany()
+    * ```
+    */
+  get healthReport(): Prisma.HealthReportDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -688,7 +703,8 @@ export namespace Prisma {
     Patient: 'Patient',
     Appointment: 'Appointment',
     MedicalNote: 'MedicalNote',
-    Prescription: 'Prescription'
+    Prescription: 'Prescription',
+    HealthReport: 'HealthReport'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -704,7 +720,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, ClientOptions = {}> = {
     meta: {
-      modelProps: "user" | "department" | "doctor" | "patient" | "appointment" | "medicalNote" | "prescription"
+      modelProps: "user" | "department" | "doctor" | "patient" | "appointment" | "medicalNote" | "prescription" | "healthReport"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1198,6 +1214,76 @@ export namespace Prisma {
           }
         }
       }
+      HealthReport: {
+        payload: Prisma.$HealthReportPayload<ExtArgs>
+        fields: Prisma.HealthReportFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.HealthReportFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HealthReportPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.HealthReportFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HealthReportPayload>
+          }
+          findFirst: {
+            args: Prisma.HealthReportFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HealthReportPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.HealthReportFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HealthReportPayload>
+          }
+          findMany: {
+            args: Prisma.HealthReportFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HealthReportPayload>[]
+          }
+          create: {
+            args: Prisma.HealthReportCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HealthReportPayload>
+          }
+          createMany: {
+            args: Prisma.HealthReportCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.HealthReportCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HealthReportPayload>[]
+          }
+          delete: {
+            args: Prisma.HealthReportDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HealthReportPayload>
+          }
+          update: {
+            args: Prisma.HealthReportUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HealthReportPayload>
+          }
+          deleteMany: {
+            args: Prisma.HealthReportDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.HealthReportUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          upsert: {
+            args: Prisma.HealthReportUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$HealthReportPayload>
+          }
+          aggregate: {
+            args: Prisma.HealthReportAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateHealthReport>
+          }
+          groupBy: {
+            args: Prisma.HealthReportGroupByArgs<ExtArgs>
+            result: $Utils.Optional<HealthReportGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.HealthReportCountArgs<ExtArgs>
+            result: $Utils.Optional<HealthReportCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1432,11 +1518,13 @@ export namespace Prisma {
   export type PatientCountOutputType = {
     appointments: number
     medicalRecords: number
+    healthReports: number
   }
 
   export type PatientCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     appointments?: boolean | PatientCountOutputTypeCountAppointmentsArgs
     medicalRecords?: boolean | PatientCountOutputTypeCountMedicalRecordsArgs
+    healthReports?: boolean | PatientCountOutputTypeCountHealthReportsArgs
   }
 
   // Custom InputTypes
@@ -1462,6 +1550,13 @@ export namespace Prisma {
    */
   export type PatientCountOutputTypeCountMedicalRecordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: MedicalNoteWhereInput
+  }
+
+  /**
+   * PatientCountOutputType without action
+   */
+  export type PatientCountOutputTypeCountHealthReportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: HealthReportWhereInput
   }
 
 
@@ -4550,6 +4645,7 @@ export namespace Prisma {
     user?: boolean | UserDefaultArgs<ExtArgs>
     appointments?: boolean | Patient$appointmentsArgs<ExtArgs>
     medicalRecords?: boolean | Patient$medicalRecordsArgs<ExtArgs>
+    healthReports?: boolean | Patient$healthReportsArgs<ExtArgs>
     _count?: boolean | PatientCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["patient"]>
 
@@ -4572,6 +4668,7 @@ export namespace Prisma {
     user?: boolean | UserDefaultArgs<ExtArgs>
     appointments?: boolean | Patient$appointmentsArgs<ExtArgs>
     medicalRecords?: boolean | Patient$medicalRecordsArgs<ExtArgs>
+    healthReports?: boolean | Patient$healthReportsArgs<ExtArgs>
     _count?: boolean | PatientCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type PatientIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4584,6 +4681,7 @@ export namespace Prisma {
       user: Prisma.$UserPayload<ExtArgs>
       appointments: Prisma.$AppointmentPayload<ExtArgs>[]
       medicalRecords: Prisma.$MedicalNotePayload<ExtArgs>[]
+      healthReports: Prisma.$HealthReportPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -4957,6 +5055,7 @@ export namespace Prisma {
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
     appointments<T extends Patient$appointmentsArgs<ExtArgs> = {}>(args?: Subset<T, Patient$appointmentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AppointmentPayload<ExtArgs>, T, "findMany"> | Null>
     medicalRecords<T extends Patient$medicalRecordsArgs<ExtArgs> = {}>(args?: Subset<T, Patient$medicalRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$MedicalNotePayload<ExtArgs>, T, "findMany"> | Null>
+    healthReports<T extends Patient$healthReportsArgs<ExtArgs> = {}>(args?: Subset<T, Patient$healthReportsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HealthReportPayload<ExtArgs>, T, "findMany"> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5343,6 +5442,26 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: MedicalNoteScalarFieldEnum | MedicalNoteScalarFieldEnum[]
+  }
+
+  /**
+   * Patient.healthReports
+   */
+  export type Patient$healthReportsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HealthReport
+     */
+    select?: HealthReportSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HealthReportInclude<ExtArgs> | null
+    where?: HealthReportWhereInput
+    orderBy?: HealthReportOrderByWithRelationInput | HealthReportOrderByWithRelationInput[]
+    cursor?: HealthReportWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: HealthReportScalarFieldEnum | HealthReportScalarFieldEnum[]
   }
 
   /**
@@ -8252,6 +8371,937 @@ export namespace Prisma {
 
 
   /**
+   * Model HealthReport
+   */
+
+  export type AggregateHealthReport = {
+    _count: HealthReportCountAggregateOutputType | null
+    _min: HealthReportMinAggregateOutputType | null
+    _max: HealthReportMaxAggregateOutputType | null
+  }
+
+  export type HealthReportMinAggregateOutputType = {
+    id: string | null
+    patientId: string | null
+    content: string | null
+    vitals: string | null
+    createdAt: Date | null
+  }
+
+  export type HealthReportMaxAggregateOutputType = {
+    id: string | null
+    patientId: string | null
+    content: string | null
+    vitals: string | null
+    createdAt: Date | null
+  }
+
+  export type HealthReportCountAggregateOutputType = {
+    id: number
+    patientId: number
+    content: number
+    vitals: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type HealthReportMinAggregateInputType = {
+    id?: true
+    patientId?: true
+    content?: true
+    vitals?: true
+    createdAt?: true
+  }
+
+  export type HealthReportMaxAggregateInputType = {
+    id?: true
+    patientId?: true
+    content?: true
+    vitals?: true
+    createdAt?: true
+  }
+
+  export type HealthReportCountAggregateInputType = {
+    id?: true
+    patientId?: true
+    content?: true
+    vitals?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type HealthReportAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which HealthReport to aggregate.
+     */
+    where?: HealthReportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HealthReports to fetch.
+     */
+    orderBy?: HealthReportOrderByWithRelationInput | HealthReportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: HealthReportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HealthReports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HealthReports.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned HealthReports
+    **/
+    _count?: true | HealthReportCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: HealthReportMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: HealthReportMaxAggregateInputType
+  }
+
+  export type GetHealthReportAggregateType<T extends HealthReportAggregateArgs> = {
+        [P in keyof T & keyof AggregateHealthReport]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateHealthReport[P]>
+      : GetScalarType<T[P], AggregateHealthReport[P]>
+  }
+
+
+
+
+  export type HealthReportGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: HealthReportWhereInput
+    orderBy?: HealthReportOrderByWithAggregationInput | HealthReportOrderByWithAggregationInput[]
+    by: HealthReportScalarFieldEnum[] | HealthReportScalarFieldEnum
+    having?: HealthReportScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: HealthReportCountAggregateInputType | true
+    _min?: HealthReportMinAggregateInputType
+    _max?: HealthReportMaxAggregateInputType
+  }
+
+  export type HealthReportGroupByOutputType = {
+    id: string
+    patientId: string
+    content: string
+    vitals: string | null
+    createdAt: Date
+    _count: HealthReportCountAggregateOutputType | null
+    _min: HealthReportMinAggregateOutputType | null
+    _max: HealthReportMaxAggregateOutputType | null
+  }
+
+  type GetHealthReportGroupByPayload<T extends HealthReportGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<HealthReportGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof HealthReportGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], HealthReportGroupByOutputType[P]>
+            : GetScalarType<T[P], HealthReportGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type HealthReportSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    patientId?: boolean
+    content?: boolean
+    vitals?: boolean
+    createdAt?: boolean
+    patient?: boolean | PatientDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["healthReport"]>
+
+  export type HealthReportSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    patientId?: boolean
+    content?: boolean
+    vitals?: boolean
+    createdAt?: boolean
+    patient?: boolean | PatientDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["healthReport"]>
+
+  export type HealthReportSelectScalar = {
+    id?: boolean
+    patientId?: boolean
+    content?: boolean
+    vitals?: boolean
+    createdAt?: boolean
+  }
+
+  export type HealthReportInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    patient?: boolean | PatientDefaultArgs<ExtArgs>
+  }
+  export type HealthReportIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    patient?: boolean | PatientDefaultArgs<ExtArgs>
+  }
+
+  export type $HealthReportPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "HealthReport"
+    objects: {
+      patient: Prisma.$PatientPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      patientId: string
+      content: string
+      vitals: string | null
+      createdAt: Date
+    }, ExtArgs["result"]["healthReport"]>
+    composites: {}
+  }
+
+  type HealthReportGetPayload<S extends boolean | null | undefined | HealthReportDefaultArgs> = $Result.GetResult<Prisma.$HealthReportPayload, S>
+
+  type HealthReportCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = 
+    Omit<HealthReportFindManyArgs, 'select' | 'include' | 'distinct'> & {
+      select?: HealthReportCountAggregateInputType | true
+    }
+
+  export interface HealthReportDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['HealthReport'], meta: { name: 'HealthReport' } }
+    /**
+     * Find zero or one HealthReport that matches the filter.
+     * @param {HealthReportFindUniqueArgs} args - Arguments to find a HealthReport
+     * @example
+     * // Get one HealthReport
+     * const healthReport = await prisma.healthReport.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends HealthReportFindUniqueArgs>(args: SelectSubset<T, HealthReportFindUniqueArgs<ExtArgs>>): Prisma__HealthReportClient<$Result.GetResult<Prisma.$HealthReportPayload<ExtArgs>, T, "findUnique"> | null, null, ExtArgs>
+
+    /**
+     * Find one HealthReport that matches the filter or throw an error with `error.code='P2025'` 
+     * if no matches were found.
+     * @param {HealthReportFindUniqueOrThrowArgs} args - Arguments to find a HealthReport
+     * @example
+     * // Get one HealthReport
+     * const healthReport = await prisma.healthReport.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends HealthReportFindUniqueOrThrowArgs>(args: SelectSubset<T, HealthReportFindUniqueOrThrowArgs<ExtArgs>>): Prisma__HealthReportClient<$Result.GetResult<Prisma.$HealthReportPayload<ExtArgs>, T, "findUniqueOrThrow">, never, ExtArgs>
+
+    /**
+     * Find the first HealthReport that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HealthReportFindFirstArgs} args - Arguments to find a HealthReport
+     * @example
+     * // Get one HealthReport
+     * const healthReport = await prisma.healthReport.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends HealthReportFindFirstArgs>(args?: SelectSubset<T, HealthReportFindFirstArgs<ExtArgs>>): Prisma__HealthReportClient<$Result.GetResult<Prisma.$HealthReportPayload<ExtArgs>, T, "findFirst"> | null, null, ExtArgs>
+
+    /**
+     * Find the first HealthReport that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HealthReportFindFirstOrThrowArgs} args - Arguments to find a HealthReport
+     * @example
+     * // Get one HealthReport
+     * const healthReport = await prisma.healthReport.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends HealthReportFindFirstOrThrowArgs>(args?: SelectSubset<T, HealthReportFindFirstOrThrowArgs<ExtArgs>>): Prisma__HealthReportClient<$Result.GetResult<Prisma.$HealthReportPayload<ExtArgs>, T, "findFirstOrThrow">, never, ExtArgs>
+
+    /**
+     * Find zero or more HealthReports that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HealthReportFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all HealthReports
+     * const healthReports = await prisma.healthReport.findMany()
+     * 
+     * // Get first 10 HealthReports
+     * const healthReports = await prisma.healthReport.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const healthReportWithIdOnly = await prisma.healthReport.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends HealthReportFindManyArgs>(args?: SelectSubset<T, HealthReportFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HealthReportPayload<ExtArgs>, T, "findMany">>
+
+    /**
+     * Create a HealthReport.
+     * @param {HealthReportCreateArgs} args - Arguments to create a HealthReport.
+     * @example
+     * // Create one HealthReport
+     * const HealthReport = await prisma.healthReport.create({
+     *   data: {
+     *     // ... data to create a HealthReport
+     *   }
+     * })
+     * 
+     */
+    create<T extends HealthReportCreateArgs>(args: SelectSubset<T, HealthReportCreateArgs<ExtArgs>>): Prisma__HealthReportClient<$Result.GetResult<Prisma.$HealthReportPayload<ExtArgs>, T, "create">, never, ExtArgs>
+
+    /**
+     * Create many HealthReports.
+     * @param {HealthReportCreateManyArgs} args - Arguments to create many HealthReports.
+     * @example
+     * // Create many HealthReports
+     * const healthReport = await prisma.healthReport.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends HealthReportCreateManyArgs>(args?: SelectSubset<T, HealthReportCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many HealthReports and returns the data saved in the database.
+     * @param {HealthReportCreateManyAndReturnArgs} args - Arguments to create many HealthReports.
+     * @example
+     * // Create many HealthReports
+     * const healthReport = await prisma.healthReport.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many HealthReports and only return the `id`
+     * const healthReportWithIdOnly = await prisma.healthReport.createManyAndReturn({ 
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends HealthReportCreateManyAndReturnArgs>(args?: SelectSubset<T, HealthReportCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$HealthReportPayload<ExtArgs>, T, "createManyAndReturn">>
+
+    /**
+     * Delete a HealthReport.
+     * @param {HealthReportDeleteArgs} args - Arguments to delete one HealthReport.
+     * @example
+     * // Delete one HealthReport
+     * const HealthReport = await prisma.healthReport.delete({
+     *   where: {
+     *     // ... filter to delete one HealthReport
+     *   }
+     * })
+     * 
+     */
+    delete<T extends HealthReportDeleteArgs>(args: SelectSubset<T, HealthReportDeleteArgs<ExtArgs>>): Prisma__HealthReportClient<$Result.GetResult<Prisma.$HealthReportPayload<ExtArgs>, T, "delete">, never, ExtArgs>
+
+    /**
+     * Update one HealthReport.
+     * @param {HealthReportUpdateArgs} args - Arguments to update one HealthReport.
+     * @example
+     * // Update one HealthReport
+     * const healthReport = await prisma.healthReport.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends HealthReportUpdateArgs>(args: SelectSubset<T, HealthReportUpdateArgs<ExtArgs>>): Prisma__HealthReportClient<$Result.GetResult<Prisma.$HealthReportPayload<ExtArgs>, T, "update">, never, ExtArgs>
+
+    /**
+     * Delete zero or more HealthReports.
+     * @param {HealthReportDeleteManyArgs} args - Arguments to filter HealthReports to delete.
+     * @example
+     * // Delete a few HealthReports
+     * const { count } = await prisma.healthReport.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends HealthReportDeleteManyArgs>(args?: SelectSubset<T, HealthReportDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more HealthReports.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HealthReportUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many HealthReports
+     * const healthReport = await prisma.healthReport.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends HealthReportUpdateManyArgs>(args: SelectSubset<T, HealthReportUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one HealthReport.
+     * @param {HealthReportUpsertArgs} args - Arguments to update or create a HealthReport.
+     * @example
+     * // Update or create a HealthReport
+     * const healthReport = await prisma.healthReport.upsert({
+     *   create: {
+     *     // ... data to create a HealthReport
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the HealthReport we want to update
+     *   }
+     * })
+     */
+    upsert<T extends HealthReportUpsertArgs>(args: SelectSubset<T, HealthReportUpsertArgs<ExtArgs>>): Prisma__HealthReportClient<$Result.GetResult<Prisma.$HealthReportPayload<ExtArgs>, T, "upsert">, never, ExtArgs>
+
+
+    /**
+     * Count the number of HealthReports.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HealthReportCountArgs} args - Arguments to filter HealthReports to count.
+     * @example
+     * // Count the number of HealthReports
+     * const count = await prisma.healthReport.count({
+     *   where: {
+     *     // ... the filter for the HealthReports we want to count
+     *   }
+     * })
+    **/
+    count<T extends HealthReportCountArgs>(
+      args?: Subset<T, HealthReportCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], HealthReportCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a HealthReport.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HealthReportAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends HealthReportAggregateArgs>(args: Subset<T, HealthReportAggregateArgs>): Prisma.PrismaPromise<GetHealthReportAggregateType<T>>
+
+    /**
+     * Group by HealthReport.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {HealthReportGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends HealthReportGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: HealthReportGroupByArgs['orderBy'] }
+        : { orderBy?: HealthReportGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, HealthReportGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetHealthReportGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the HealthReport model
+   */
+  readonly fields: HealthReportFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for HealthReport.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__HealthReportClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    patient<T extends PatientDefaultArgs<ExtArgs> = {}>(args?: Subset<T, PatientDefaultArgs<ExtArgs>>): Prisma__PatientClient<$Result.GetResult<Prisma.$PatientPayload<ExtArgs>, T, "findUniqueOrThrow"> | Null, Null, ExtArgs>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the HealthReport model
+   */ 
+  interface HealthReportFieldRefs {
+    readonly id: FieldRef<"HealthReport", 'String'>
+    readonly patientId: FieldRef<"HealthReport", 'String'>
+    readonly content: FieldRef<"HealthReport", 'String'>
+    readonly vitals: FieldRef<"HealthReport", 'String'>
+    readonly createdAt: FieldRef<"HealthReport", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * HealthReport findUnique
+   */
+  export type HealthReportFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HealthReport
+     */
+    select?: HealthReportSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HealthReportInclude<ExtArgs> | null
+    /**
+     * Filter, which HealthReport to fetch.
+     */
+    where: HealthReportWhereUniqueInput
+  }
+
+  /**
+   * HealthReport findUniqueOrThrow
+   */
+  export type HealthReportFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HealthReport
+     */
+    select?: HealthReportSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HealthReportInclude<ExtArgs> | null
+    /**
+     * Filter, which HealthReport to fetch.
+     */
+    where: HealthReportWhereUniqueInput
+  }
+
+  /**
+   * HealthReport findFirst
+   */
+  export type HealthReportFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HealthReport
+     */
+    select?: HealthReportSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HealthReportInclude<ExtArgs> | null
+    /**
+     * Filter, which HealthReport to fetch.
+     */
+    where?: HealthReportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HealthReports to fetch.
+     */
+    orderBy?: HealthReportOrderByWithRelationInput | HealthReportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for HealthReports.
+     */
+    cursor?: HealthReportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HealthReports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HealthReports.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of HealthReports.
+     */
+    distinct?: HealthReportScalarFieldEnum | HealthReportScalarFieldEnum[]
+  }
+
+  /**
+   * HealthReport findFirstOrThrow
+   */
+  export type HealthReportFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HealthReport
+     */
+    select?: HealthReportSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HealthReportInclude<ExtArgs> | null
+    /**
+     * Filter, which HealthReport to fetch.
+     */
+    where?: HealthReportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HealthReports to fetch.
+     */
+    orderBy?: HealthReportOrderByWithRelationInput | HealthReportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for HealthReports.
+     */
+    cursor?: HealthReportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HealthReports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HealthReports.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of HealthReports.
+     */
+    distinct?: HealthReportScalarFieldEnum | HealthReportScalarFieldEnum[]
+  }
+
+  /**
+   * HealthReport findMany
+   */
+  export type HealthReportFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HealthReport
+     */
+    select?: HealthReportSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HealthReportInclude<ExtArgs> | null
+    /**
+     * Filter, which HealthReports to fetch.
+     */
+    where?: HealthReportWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of HealthReports to fetch.
+     */
+    orderBy?: HealthReportOrderByWithRelationInput | HealthReportOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing HealthReports.
+     */
+    cursor?: HealthReportWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` HealthReports from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` HealthReports.
+     */
+    skip?: number
+    distinct?: HealthReportScalarFieldEnum | HealthReportScalarFieldEnum[]
+  }
+
+  /**
+   * HealthReport create
+   */
+  export type HealthReportCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HealthReport
+     */
+    select?: HealthReportSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HealthReportInclude<ExtArgs> | null
+    /**
+     * The data needed to create a HealthReport.
+     */
+    data: XOR<HealthReportCreateInput, HealthReportUncheckedCreateInput>
+  }
+
+  /**
+   * HealthReport createMany
+   */
+  export type HealthReportCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many HealthReports.
+     */
+    data: HealthReportCreateManyInput | HealthReportCreateManyInput[]
+  }
+
+  /**
+   * HealthReport createManyAndReturn
+   */
+  export type HealthReportCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HealthReport
+     */
+    select?: HealthReportSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * The data used to create many HealthReports.
+     */
+    data: HealthReportCreateManyInput | HealthReportCreateManyInput[]
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HealthReportIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * HealthReport update
+   */
+  export type HealthReportUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HealthReport
+     */
+    select?: HealthReportSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HealthReportInclude<ExtArgs> | null
+    /**
+     * The data needed to update a HealthReport.
+     */
+    data: XOR<HealthReportUpdateInput, HealthReportUncheckedUpdateInput>
+    /**
+     * Choose, which HealthReport to update.
+     */
+    where: HealthReportWhereUniqueInput
+  }
+
+  /**
+   * HealthReport updateMany
+   */
+  export type HealthReportUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update HealthReports.
+     */
+    data: XOR<HealthReportUpdateManyMutationInput, HealthReportUncheckedUpdateManyInput>
+    /**
+     * Filter which HealthReports to update
+     */
+    where?: HealthReportWhereInput
+  }
+
+  /**
+   * HealthReport upsert
+   */
+  export type HealthReportUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HealthReport
+     */
+    select?: HealthReportSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HealthReportInclude<ExtArgs> | null
+    /**
+     * The filter to search for the HealthReport to update in case it exists.
+     */
+    where: HealthReportWhereUniqueInput
+    /**
+     * In case the HealthReport found by the `where` argument doesn't exist, create a new HealthReport with this data.
+     */
+    create: XOR<HealthReportCreateInput, HealthReportUncheckedCreateInput>
+    /**
+     * In case the HealthReport was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<HealthReportUpdateInput, HealthReportUncheckedUpdateInput>
+  }
+
+  /**
+   * HealthReport delete
+   */
+  export type HealthReportDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HealthReport
+     */
+    select?: HealthReportSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HealthReportInclude<ExtArgs> | null
+    /**
+     * Filter which HealthReport to delete.
+     */
+    where: HealthReportWhereUniqueInput
+  }
+
+  /**
+   * HealthReport deleteMany
+   */
+  export type HealthReportDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which HealthReports to delete
+     */
+    where?: HealthReportWhereInput
+  }
+
+  /**
+   * HealthReport without action
+   */
+  export type HealthReportDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the HealthReport
+     */
+    select?: HealthReportSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: HealthReportInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -8341,6 +9391,17 @@ export namespace Prisma {
   };
 
   export type PrescriptionScalarFieldEnum = (typeof PrescriptionScalarFieldEnum)[keyof typeof PrescriptionScalarFieldEnum]
+
+
+  export const HealthReportScalarFieldEnum: {
+    id: 'id',
+    patientId: 'patientId',
+    content: 'content',
+    vitals: 'vitals',
+    createdAt: 'createdAt'
+  };
+
+  export type HealthReportScalarFieldEnum = (typeof HealthReportScalarFieldEnum)[keyof typeof HealthReportScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -8576,6 +9637,7 @@ export namespace Prisma {
     user?: XOR<UserRelationFilter, UserWhereInput>
     appointments?: AppointmentListRelationFilter
     medicalRecords?: MedicalNoteListRelationFilter
+    healthReports?: HealthReportListRelationFilter
   }
 
   export type PatientOrderByWithRelationInput = {
@@ -8586,6 +9648,7 @@ export namespace Prisma {
     user?: UserOrderByWithRelationInput
     appointments?: AppointmentOrderByRelationAggregateInput
     medicalRecords?: MedicalNoteOrderByRelationAggregateInput
+    healthReports?: HealthReportOrderByRelationAggregateInput
   }
 
   export type PatientWhereUniqueInput = Prisma.AtLeast<{
@@ -8599,6 +9662,7 @@ export namespace Prisma {
     user?: XOR<UserRelationFilter, UserWhereInput>
     appointments?: AppointmentListRelationFilter
     medicalRecords?: MedicalNoteListRelationFilter
+    healthReports?: HealthReportListRelationFilter
   }, "id" | "userId">
 
   export type PatientOrderByWithAggregationInput = {
@@ -8820,6 +9884,61 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Prescription"> | Date | string
   }
 
+  export type HealthReportWhereInput = {
+    AND?: HealthReportWhereInput | HealthReportWhereInput[]
+    OR?: HealthReportWhereInput[]
+    NOT?: HealthReportWhereInput | HealthReportWhereInput[]
+    id?: StringFilter<"HealthReport"> | string
+    patientId?: StringFilter<"HealthReport"> | string
+    content?: StringFilter<"HealthReport"> | string
+    vitals?: StringNullableFilter<"HealthReport"> | string | null
+    createdAt?: DateTimeFilter<"HealthReport"> | Date | string
+    patient?: XOR<PatientRelationFilter, PatientWhereInput>
+  }
+
+  export type HealthReportOrderByWithRelationInput = {
+    id?: SortOrder
+    patientId?: SortOrder
+    content?: SortOrder
+    vitals?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    patient?: PatientOrderByWithRelationInput
+  }
+
+  export type HealthReportWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: HealthReportWhereInput | HealthReportWhereInput[]
+    OR?: HealthReportWhereInput[]
+    NOT?: HealthReportWhereInput | HealthReportWhereInput[]
+    patientId?: StringFilter<"HealthReport"> | string
+    content?: StringFilter<"HealthReport"> | string
+    vitals?: StringNullableFilter<"HealthReport"> | string | null
+    createdAt?: DateTimeFilter<"HealthReport"> | Date | string
+    patient?: XOR<PatientRelationFilter, PatientWhereInput>
+  }, "id">
+
+  export type HealthReportOrderByWithAggregationInput = {
+    id?: SortOrder
+    patientId?: SortOrder
+    content?: SortOrder
+    vitals?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    _count?: HealthReportCountOrderByAggregateInput
+    _max?: HealthReportMaxOrderByAggregateInput
+    _min?: HealthReportMinOrderByAggregateInput
+  }
+
+  export type HealthReportScalarWhereWithAggregatesInput = {
+    AND?: HealthReportScalarWhereWithAggregatesInput | HealthReportScalarWhereWithAggregatesInput[]
+    OR?: HealthReportScalarWhereWithAggregatesInput[]
+    NOT?: HealthReportScalarWhereWithAggregatesInput | HealthReportScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"HealthReport"> | string
+    patientId?: StringWithAggregatesFilter<"HealthReport"> | string
+    content?: StringWithAggregatesFilter<"HealthReport"> | string
+    vitals?: StringNullableWithAggregatesFilter<"HealthReport"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"HealthReport"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name?: string | null
@@ -9013,6 +10132,7 @@ export namespace Prisma {
     user: UserCreateNestedOneWithoutPatientInput
     appointments?: AppointmentCreateNestedManyWithoutPatientInput
     medicalRecords?: MedicalNoteCreateNestedManyWithoutPatientInput
+    healthReports?: HealthReportCreateNestedManyWithoutPatientInput
   }
 
   export type PatientUncheckedCreateInput = {
@@ -9022,6 +10142,7 @@ export namespace Prisma {
     gender?: string | null
     appointments?: AppointmentUncheckedCreateNestedManyWithoutPatientInput
     medicalRecords?: MedicalNoteUncheckedCreateNestedManyWithoutPatientInput
+    healthReports?: HealthReportUncheckedCreateNestedManyWithoutPatientInput
   }
 
   export type PatientUpdateInput = {
@@ -9031,6 +10152,7 @@ export namespace Prisma {
     user?: UserUpdateOneRequiredWithoutPatientNestedInput
     appointments?: AppointmentUpdateManyWithoutPatientNestedInput
     medicalRecords?: MedicalNoteUpdateManyWithoutPatientNestedInput
+    healthReports?: HealthReportUpdateManyWithoutPatientNestedInput
   }
 
   export type PatientUncheckedUpdateInput = {
@@ -9040,6 +10162,7 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     appointments?: AppointmentUncheckedUpdateManyWithoutPatientNestedInput
     medicalRecords?: MedicalNoteUncheckedUpdateManyWithoutPatientNestedInput
+    healthReports?: HealthReportUncheckedUpdateManyWithoutPatientNestedInput
   }
 
   export type PatientCreateManyInput = {
@@ -9261,6 +10384,61 @@ export namespace Prisma {
     medication?: StringFieldUpdateOperationsInput | string
     dosage?: StringFieldUpdateOperationsInput | string
     duration?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HealthReportCreateInput = {
+    id?: string
+    content: string
+    vitals?: string | null
+    createdAt?: Date | string
+    patient: PatientCreateNestedOneWithoutHealthReportsInput
+  }
+
+  export type HealthReportUncheckedCreateInput = {
+    id?: string
+    patientId: string
+    content: string
+    vitals?: string | null
+    createdAt?: Date | string
+  }
+
+  export type HealthReportUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    vitals?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    patient?: PatientUpdateOneRequiredWithoutHealthReportsNestedInput
+  }
+
+  export type HealthReportUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    patientId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    vitals?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HealthReportCreateManyInput = {
+    id?: string
+    patientId: string
+    content: string
+    vitals?: string | null
+    createdAt?: Date | string
+  }
+
+  export type HealthReportUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    vitals?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HealthReportUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    patientId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    vitals?: NullableStringFieldUpdateOperationsInput | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
@@ -9489,6 +10667,16 @@ export namespace Prisma {
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
+  export type HealthReportListRelationFilter = {
+    every?: HealthReportWhereInput
+    some?: HealthReportWhereInput
+    none?: HealthReportWhereInput
+  }
+
+  export type HealthReportOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type PatientCountOrderByAggregateInput = {
     id?: SortOrder
     userId?: SortOrder
@@ -9633,6 +10821,30 @@ export namespace Prisma {
     medication?: SortOrder
     dosage?: SortOrder
     duration?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type HealthReportCountOrderByAggregateInput = {
+    id?: SortOrder
+    patientId?: SortOrder
+    content?: SortOrder
+    vitals?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type HealthReportMaxOrderByAggregateInput = {
+    id?: SortOrder
+    patientId?: SortOrder
+    content?: SortOrder
+    vitals?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type HealthReportMinOrderByAggregateInput = {
+    id?: SortOrder
+    patientId?: SortOrder
+    content?: SortOrder
+    vitals?: SortOrder
     createdAt?: SortOrder
   }
 
@@ -9886,6 +11098,13 @@ export namespace Prisma {
     connect?: MedicalNoteWhereUniqueInput | MedicalNoteWhereUniqueInput[]
   }
 
+  export type HealthReportCreateNestedManyWithoutPatientInput = {
+    create?: XOR<HealthReportCreateWithoutPatientInput, HealthReportUncheckedCreateWithoutPatientInput> | HealthReportCreateWithoutPatientInput[] | HealthReportUncheckedCreateWithoutPatientInput[]
+    connectOrCreate?: HealthReportCreateOrConnectWithoutPatientInput | HealthReportCreateOrConnectWithoutPatientInput[]
+    createMany?: HealthReportCreateManyPatientInputEnvelope
+    connect?: HealthReportWhereUniqueInput | HealthReportWhereUniqueInput[]
+  }
+
   export type AppointmentUncheckedCreateNestedManyWithoutPatientInput = {
     create?: XOR<AppointmentCreateWithoutPatientInput, AppointmentUncheckedCreateWithoutPatientInput> | AppointmentCreateWithoutPatientInput[] | AppointmentUncheckedCreateWithoutPatientInput[]
     connectOrCreate?: AppointmentCreateOrConnectWithoutPatientInput | AppointmentCreateOrConnectWithoutPatientInput[]
@@ -9898,6 +11117,13 @@ export namespace Prisma {
     connectOrCreate?: MedicalNoteCreateOrConnectWithoutPatientInput | MedicalNoteCreateOrConnectWithoutPatientInput[]
     createMany?: MedicalNoteCreateManyPatientInputEnvelope
     connect?: MedicalNoteWhereUniqueInput | MedicalNoteWhereUniqueInput[]
+  }
+
+  export type HealthReportUncheckedCreateNestedManyWithoutPatientInput = {
+    create?: XOR<HealthReportCreateWithoutPatientInput, HealthReportUncheckedCreateWithoutPatientInput> | HealthReportCreateWithoutPatientInput[] | HealthReportUncheckedCreateWithoutPatientInput[]
+    connectOrCreate?: HealthReportCreateOrConnectWithoutPatientInput | HealthReportCreateOrConnectWithoutPatientInput[]
+    createMany?: HealthReportCreateManyPatientInputEnvelope
+    connect?: HealthReportWhereUniqueInput | HealthReportWhereUniqueInput[]
   }
 
   export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -9940,6 +11166,20 @@ export namespace Prisma {
     deleteMany?: MedicalNoteScalarWhereInput | MedicalNoteScalarWhereInput[]
   }
 
+  export type HealthReportUpdateManyWithoutPatientNestedInput = {
+    create?: XOR<HealthReportCreateWithoutPatientInput, HealthReportUncheckedCreateWithoutPatientInput> | HealthReportCreateWithoutPatientInput[] | HealthReportUncheckedCreateWithoutPatientInput[]
+    connectOrCreate?: HealthReportCreateOrConnectWithoutPatientInput | HealthReportCreateOrConnectWithoutPatientInput[]
+    upsert?: HealthReportUpsertWithWhereUniqueWithoutPatientInput | HealthReportUpsertWithWhereUniqueWithoutPatientInput[]
+    createMany?: HealthReportCreateManyPatientInputEnvelope
+    set?: HealthReportWhereUniqueInput | HealthReportWhereUniqueInput[]
+    disconnect?: HealthReportWhereUniqueInput | HealthReportWhereUniqueInput[]
+    delete?: HealthReportWhereUniqueInput | HealthReportWhereUniqueInput[]
+    connect?: HealthReportWhereUniqueInput | HealthReportWhereUniqueInput[]
+    update?: HealthReportUpdateWithWhereUniqueWithoutPatientInput | HealthReportUpdateWithWhereUniqueWithoutPatientInput[]
+    updateMany?: HealthReportUpdateManyWithWhereWithoutPatientInput | HealthReportUpdateManyWithWhereWithoutPatientInput[]
+    deleteMany?: HealthReportScalarWhereInput | HealthReportScalarWhereInput[]
+  }
+
   export type AppointmentUncheckedUpdateManyWithoutPatientNestedInput = {
     create?: XOR<AppointmentCreateWithoutPatientInput, AppointmentUncheckedCreateWithoutPatientInput> | AppointmentCreateWithoutPatientInput[] | AppointmentUncheckedCreateWithoutPatientInput[]
     connectOrCreate?: AppointmentCreateOrConnectWithoutPatientInput | AppointmentCreateOrConnectWithoutPatientInput[]
@@ -9966,6 +11206,20 @@ export namespace Prisma {
     update?: MedicalNoteUpdateWithWhereUniqueWithoutPatientInput | MedicalNoteUpdateWithWhereUniqueWithoutPatientInput[]
     updateMany?: MedicalNoteUpdateManyWithWhereWithoutPatientInput | MedicalNoteUpdateManyWithWhereWithoutPatientInput[]
     deleteMany?: MedicalNoteScalarWhereInput | MedicalNoteScalarWhereInput[]
+  }
+
+  export type HealthReportUncheckedUpdateManyWithoutPatientNestedInput = {
+    create?: XOR<HealthReportCreateWithoutPatientInput, HealthReportUncheckedCreateWithoutPatientInput> | HealthReportCreateWithoutPatientInput[] | HealthReportUncheckedCreateWithoutPatientInput[]
+    connectOrCreate?: HealthReportCreateOrConnectWithoutPatientInput | HealthReportCreateOrConnectWithoutPatientInput[]
+    upsert?: HealthReportUpsertWithWhereUniqueWithoutPatientInput | HealthReportUpsertWithWhereUniqueWithoutPatientInput[]
+    createMany?: HealthReportCreateManyPatientInputEnvelope
+    set?: HealthReportWhereUniqueInput | HealthReportWhereUniqueInput[]
+    disconnect?: HealthReportWhereUniqueInput | HealthReportWhereUniqueInput[]
+    delete?: HealthReportWhereUniqueInput | HealthReportWhereUniqueInput[]
+    connect?: HealthReportWhereUniqueInput | HealthReportWhereUniqueInput[]
+    update?: HealthReportUpdateWithWhereUniqueWithoutPatientInput | HealthReportUpdateWithWhereUniqueWithoutPatientInput[]
+    updateMany?: HealthReportUpdateManyWithWhereWithoutPatientInput | HealthReportUpdateManyWithWhereWithoutPatientInput[]
+    deleteMany?: HealthReportScalarWhereInput | HealthReportScalarWhereInput[]
   }
 
   export type PatientCreateNestedOneWithoutAppointmentsInput = {
@@ -10078,6 +11332,20 @@ export namespace Prisma {
     upsert?: MedicalNoteUpsertWithoutPrescriptionsInput
     connect?: MedicalNoteWhereUniqueInput
     update?: XOR<XOR<MedicalNoteUpdateToOneWithWhereWithoutPrescriptionsInput, MedicalNoteUpdateWithoutPrescriptionsInput>, MedicalNoteUncheckedUpdateWithoutPrescriptionsInput>
+  }
+
+  export type PatientCreateNestedOneWithoutHealthReportsInput = {
+    create?: XOR<PatientCreateWithoutHealthReportsInput, PatientUncheckedCreateWithoutHealthReportsInput>
+    connectOrCreate?: PatientCreateOrConnectWithoutHealthReportsInput
+    connect?: PatientWhereUniqueInput
+  }
+
+  export type PatientUpdateOneRequiredWithoutHealthReportsNestedInput = {
+    create?: XOR<PatientCreateWithoutHealthReportsInput, PatientUncheckedCreateWithoutHealthReportsInput>
+    connectOrCreate?: PatientCreateOrConnectWithoutHealthReportsInput
+    upsert?: PatientUpsertWithoutHealthReportsInput
+    connect?: PatientWhereUniqueInput
+    update?: XOR<XOR<PatientUpdateToOneWithWhereWithoutHealthReportsInput, PatientUpdateWithoutHealthReportsInput>, PatientUncheckedUpdateWithoutHealthReportsInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -10241,6 +11509,7 @@ export namespace Prisma {
     gender?: string | null
     appointments?: AppointmentCreateNestedManyWithoutPatientInput
     medicalRecords?: MedicalNoteCreateNestedManyWithoutPatientInput
+    healthReports?: HealthReportCreateNestedManyWithoutPatientInput
   }
 
   export type PatientUncheckedCreateWithoutUserInput = {
@@ -10249,6 +11518,7 @@ export namespace Prisma {
     gender?: string | null
     appointments?: AppointmentUncheckedCreateNestedManyWithoutPatientInput
     medicalRecords?: MedicalNoteUncheckedCreateNestedManyWithoutPatientInput
+    healthReports?: HealthReportUncheckedCreateNestedManyWithoutPatientInput
   }
 
   export type PatientCreateOrConnectWithoutUserInput = {
@@ -10300,6 +11570,7 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     appointments?: AppointmentUpdateManyWithoutPatientNestedInput
     medicalRecords?: MedicalNoteUpdateManyWithoutPatientNestedInput
+    healthReports?: HealthReportUpdateManyWithoutPatientNestedInput
   }
 
   export type PatientUncheckedUpdateWithoutUserInput = {
@@ -10308,6 +11579,7 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     appointments?: AppointmentUncheckedUpdateManyWithoutPatientNestedInput
     medicalRecords?: MedicalNoteUncheckedUpdateManyWithoutPatientNestedInput
+    healthReports?: HealthReportUncheckedUpdateManyWithoutPatientNestedInput
   }
 
   export type DoctorCreateWithoutDepartmentInput = {
@@ -10664,6 +11936,29 @@ export namespace Prisma {
     data: MedicalNoteCreateManyPatientInput | MedicalNoteCreateManyPatientInput[]
   }
 
+  export type HealthReportCreateWithoutPatientInput = {
+    id?: string
+    content: string
+    vitals?: string | null
+    createdAt?: Date | string
+  }
+
+  export type HealthReportUncheckedCreateWithoutPatientInput = {
+    id?: string
+    content: string
+    vitals?: string | null
+    createdAt?: Date | string
+  }
+
+  export type HealthReportCreateOrConnectWithoutPatientInput = {
+    where: HealthReportWhereUniqueInput
+    create: XOR<HealthReportCreateWithoutPatientInput, HealthReportUncheckedCreateWithoutPatientInput>
+  }
+
+  export type HealthReportCreateManyPatientInputEnvelope = {
+    data: HealthReportCreateManyPatientInput | HealthReportCreateManyPatientInput[]
+  }
+
   export type UserUpsertWithoutPatientInput = {
     update: XOR<UserUpdateWithoutPatientInput, UserUncheckedUpdateWithoutPatientInput>
     create: XOR<UserCreateWithoutPatientInput, UserUncheckedCreateWithoutPatientInput>
@@ -10731,12 +12026,40 @@ export namespace Prisma {
     data: XOR<MedicalNoteUpdateManyMutationInput, MedicalNoteUncheckedUpdateManyWithoutPatientInput>
   }
 
+  export type HealthReportUpsertWithWhereUniqueWithoutPatientInput = {
+    where: HealthReportWhereUniqueInput
+    update: XOR<HealthReportUpdateWithoutPatientInput, HealthReportUncheckedUpdateWithoutPatientInput>
+    create: XOR<HealthReportCreateWithoutPatientInput, HealthReportUncheckedCreateWithoutPatientInput>
+  }
+
+  export type HealthReportUpdateWithWhereUniqueWithoutPatientInput = {
+    where: HealthReportWhereUniqueInput
+    data: XOR<HealthReportUpdateWithoutPatientInput, HealthReportUncheckedUpdateWithoutPatientInput>
+  }
+
+  export type HealthReportUpdateManyWithWhereWithoutPatientInput = {
+    where: HealthReportScalarWhereInput
+    data: XOR<HealthReportUpdateManyMutationInput, HealthReportUncheckedUpdateManyWithoutPatientInput>
+  }
+
+  export type HealthReportScalarWhereInput = {
+    AND?: HealthReportScalarWhereInput | HealthReportScalarWhereInput[]
+    OR?: HealthReportScalarWhereInput[]
+    NOT?: HealthReportScalarWhereInput | HealthReportScalarWhereInput[]
+    id?: StringFilter<"HealthReport"> | string
+    patientId?: StringFilter<"HealthReport"> | string
+    content?: StringFilter<"HealthReport"> | string
+    vitals?: StringNullableFilter<"HealthReport"> | string | null
+    createdAt?: DateTimeFilter<"HealthReport"> | Date | string
+  }
+
   export type PatientCreateWithoutAppointmentsInput = {
     id?: string
     dateOfBirth?: Date | string | null
     gender?: string | null
     user: UserCreateNestedOneWithoutPatientInput
     medicalRecords?: MedicalNoteCreateNestedManyWithoutPatientInput
+    healthReports?: HealthReportCreateNestedManyWithoutPatientInput
   }
 
   export type PatientUncheckedCreateWithoutAppointmentsInput = {
@@ -10745,6 +12068,7 @@ export namespace Prisma {
     dateOfBirth?: Date | string | null
     gender?: string | null
     medicalRecords?: MedicalNoteUncheckedCreateNestedManyWithoutPatientInput
+    healthReports?: HealthReportUncheckedCreateNestedManyWithoutPatientInput
   }
 
   export type PatientCreateOrConnectWithoutAppointmentsInput = {
@@ -10790,6 +12114,7 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutPatientNestedInput
     medicalRecords?: MedicalNoteUpdateManyWithoutPatientNestedInput
+    healthReports?: HealthReportUpdateManyWithoutPatientNestedInput
   }
 
   export type PatientUncheckedUpdateWithoutAppointmentsInput = {
@@ -10798,6 +12123,7 @@ export namespace Prisma {
     dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     medicalRecords?: MedicalNoteUncheckedUpdateManyWithoutPatientNestedInput
+    healthReports?: HealthReportUncheckedUpdateManyWithoutPatientNestedInput
   }
 
   export type DoctorUpsertWithoutAppointmentsInput = {
@@ -10833,6 +12159,7 @@ export namespace Prisma {
     gender?: string | null
     user: UserCreateNestedOneWithoutPatientInput
     appointments?: AppointmentCreateNestedManyWithoutPatientInput
+    healthReports?: HealthReportCreateNestedManyWithoutPatientInput
   }
 
   export type PatientUncheckedCreateWithoutMedicalRecordsInput = {
@@ -10841,6 +12168,7 @@ export namespace Prisma {
     dateOfBirth?: Date | string | null
     gender?: string | null
     appointments?: AppointmentUncheckedCreateNestedManyWithoutPatientInput
+    healthReports?: HealthReportUncheckedCreateNestedManyWithoutPatientInput
   }
 
   export type PatientCreateOrConnectWithoutMedicalRecordsInput = {
@@ -10911,6 +12239,7 @@ export namespace Prisma {
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     user?: UserUpdateOneRequiredWithoutPatientNestedInput
     appointments?: AppointmentUpdateManyWithoutPatientNestedInput
+    healthReports?: HealthReportUpdateManyWithoutPatientNestedInput
   }
 
   export type PatientUncheckedUpdateWithoutMedicalRecordsInput = {
@@ -10919,6 +12248,7 @@ export namespace Prisma {
     dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     gender?: NullableStringFieldUpdateOperationsInput | string | null
     appointments?: AppointmentUncheckedUpdateManyWithoutPatientNestedInput
+    healthReports?: HealthReportUncheckedUpdateManyWithoutPatientNestedInput
   }
 
   export type DoctorUpsertWithoutNotesInput = {
@@ -11026,6 +12356,58 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type PatientCreateWithoutHealthReportsInput = {
+    id?: string
+    dateOfBirth?: Date | string | null
+    gender?: string | null
+    user: UserCreateNestedOneWithoutPatientInput
+    appointments?: AppointmentCreateNestedManyWithoutPatientInput
+    medicalRecords?: MedicalNoteCreateNestedManyWithoutPatientInput
+  }
+
+  export type PatientUncheckedCreateWithoutHealthReportsInput = {
+    id?: string
+    userId: string
+    dateOfBirth?: Date | string | null
+    gender?: string | null
+    appointments?: AppointmentUncheckedCreateNestedManyWithoutPatientInput
+    medicalRecords?: MedicalNoteUncheckedCreateNestedManyWithoutPatientInput
+  }
+
+  export type PatientCreateOrConnectWithoutHealthReportsInput = {
+    where: PatientWhereUniqueInput
+    create: XOR<PatientCreateWithoutHealthReportsInput, PatientUncheckedCreateWithoutHealthReportsInput>
+  }
+
+  export type PatientUpsertWithoutHealthReportsInput = {
+    update: XOR<PatientUpdateWithoutHealthReportsInput, PatientUncheckedUpdateWithoutHealthReportsInput>
+    create: XOR<PatientCreateWithoutHealthReportsInput, PatientUncheckedCreateWithoutHealthReportsInput>
+    where?: PatientWhereInput
+  }
+
+  export type PatientUpdateToOneWithWhereWithoutHealthReportsInput = {
+    where?: PatientWhereInput
+    data: XOR<PatientUpdateWithoutHealthReportsInput, PatientUncheckedUpdateWithoutHealthReportsInput>
+  }
+
+  export type PatientUpdateWithoutHealthReportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    user?: UserUpdateOneRequiredWithoutPatientNestedInput
+    appointments?: AppointmentUpdateManyWithoutPatientNestedInput
+    medicalRecords?: MedicalNoteUpdateManyWithoutPatientNestedInput
+  }
+
+  export type PatientUncheckedUpdateWithoutHealthReportsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    dateOfBirth?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    gender?: NullableStringFieldUpdateOperationsInput | string | null
+    appointments?: AppointmentUncheckedUpdateManyWithoutPatientNestedInput
+    medicalRecords?: MedicalNoteUncheckedUpdateManyWithoutPatientNestedInput
   }
 
   export type DoctorCreateManyDepartmentInput = {
@@ -11148,6 +12530,13 @@ export namespace Prisma {
     updatedAt?: Date | string
   }
 
+  export type HealthReportCreateManyPatientInput = {
+    id?: string
+    content: string
+    vitals?: string | null
+    createdAt?: Date | string
+  }
+
   export type AppointmentUpdateWithoutPatientInput = {
     id?: StringFieldUpdateOperationsInput | string
     date?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -11202,6 +12591,27 @@ export namespace Prisma {
     content?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HealthReportUpdateWithoutPatientInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    vitals?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HealthReportUncheckedUpdateWithoutPatientInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    vitals?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type HealthReportUncheckedUpdateManyWithoutPatientInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    vitals?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type PrescriptionCreateManyMedicalNoteInput = {
@@ -11285,6 +12695,10 @@ export namespace Prisma {
      * @deprecated Use PrescriptionDefaultArgs instead
      */
     export type PrescriptionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = PrescriptionDefaultArgs<ExtArgs>
+    /**
+     * @deprecated Use HealthReportDefaultArgs instead
+     */
+    export type HealthReportArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = HealthReportDefaultArgs<ExtArgs>
 
   /**
    * Batch Payload for updateMany & deleteMany & createMany

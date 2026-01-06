@@ -48,6 +48,7 @@ model Patient {
   gender         String?
   appointments   Appointment[]
   medicalRecords MedicalNote[]
+  healthReports  HealthReport[]
 }
 
 model Appointment {
@@ -83,4 +84,13 @@ model Prescription {
   dosage        String
   duration      String
   createdAt     DateTime    @default(now())
+}
+
+model HealthReport {
+  id        String   @id @default(cuid())
+  patientId String
+  patient   Patient  @relation(fields: [patientId], references: [id], onDelete: Cascade)
+  content   String
+  vitals    String? 
+  createdAt DateTime @default(now())
 }

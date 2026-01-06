@@ -15,10 +15,11 @@ import {
   Calendar as CalendarIcon,
   TrendingUp,
   UserCheck,
-  AlertCircle
+  AlertCircle,
+  FileText
 } from "lucide-react";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { 
   BarChart, 
   Bar, 
@@ -32,22 +33,49 @@ import {
 
 export default function DoctorDashboard() {
   const { data: session } = useSession();
-  const [appointments, setAppointments] = useState([
-    { id: "1", patientName: "John Doe", time: "10:00 AM", status: "APPROVED", reason: "Regular heart checkup", age: "45", lastVisit: "2 months ago" },
-    { id: "2", patientName: "Jane Smith", time: "11:30 AM", status: "PENDING", reason: "Flu symptoms", age: "32", lastVisit: "1 week ago" },
-    { id: "3", patientName: "Michael Brown", time: "02:00 PM", status: "COMPLETED", reason: "Post-surgery follow-up", age: "58", lastVisit: "3 days ago" },
-    { id: "4", patientName: "Sarah Connor", time: "03:30 PM", status: "PENDING", reason: "Persistent headaches", age: "29", lastVisit: "First visit" },
-  ]);
+  const [appointments, setAppointments] = useState<any[]>([]);
+  const [reports, setReports] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const updateStatus = (id: string, newStatus: string) => {
-    setAppointments(appointments.map(app => 
-      app.id === id ? { ...app, status: newStatus } : app
-    ));
+  const fetchData = async () => {
+    try {
+      const [apptsRes, reportsRes] = await Promise.all([
+        fetch("/api/appointments"),
+        fetch("/api/health-reports")
+      ]);
+      const apptsData = await apptsRes.json();
+      const reportsData = await reportsRes.json();
+      
+      if (Array.isArray(apptsData)) setAppointments(apptsData);
+      if (Array.isArray(reportsData)) setReports(reportsData);
+    } catch (error) {
+      console.error("Doctor Dashboard Fetch Error:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const updateStatus = async (id: string, newStatus: string) => {
+    try {
+      // In a real app, we'd have a PATCH /api/appointments/[id]
+      // For now, let's simulate the update locally after a potential API call
+      setAppointments(appointments.map(app => 
+        app.id === id ? { ...app, status: newStatus } : app
+      ));
+      // Optional: fetch refreshed data
+      // await fetchData();
+    } catch (error) {
+      console.error("Error updating status:", error);
+    }
   };
 
   const clinicalStats = [
     { label: "Total Patients", value: "842", icon: Users, color: "text-blue-600", bg: "bg-blue-50", growth: "+12%" },
-    { label: "Today's Schedule", value: "12", icon: Clock, color: "text-amber-600", bg: "bg-amber-50", growth: "3 Urgent" },
+    { label: "Today's Schedule", value: appointments.length.toString(), icon: Clock, color: "text-amber-600", bg: "bg-amber-50", growth: "Active" },
     { label: "Satisfaction Rate", value: "98%", icon: UserCheck, color: "text-green-600", bg: "bg-green-50", growth: "Top 5%" },
   ];
 
@@ -145,8 +173,28 @@ export default function DoctorDashboard() {
               </div>
            </div>
 
-           {/* Quick Resources */}
+           {/* Quick Resources / Latest Reports */}
            <div className="lg:col-span-4 space-y-8">
+              <div className="bg-white p-8 rounded-[3rem] border border-slate-100 shadow-2xl shadow-slate-200/50">
+                 <h3 className="text-xl font-black mb-6 flex items-center gap-2">
+                    <FileText className="w-5 h-5 text-blue-600" />
+                    <span>Recent Patient Reports</span>
+                 </h3>
+                 <div className="space-y-4">
+                    {reports.length > 0 ? reports.slice(0, 3).map((report, i) => (
+                      <div key={i} className="p-4 bg-slate-50 rounded-2xl border border-slate-100 hover:border-blue-200 transition-all cursor-pointer">
+                         <div className="flex justify-between items-start mb-2">
+                            <span className="text-xs font-black text-blue-600 uppercase tracking-widest">{report.patient?.user?.name || "Patient"}</span>
+                            <span className="text-[10px] font-bold text-slate-400">{new Date(report.createdAt).toLocaleDateString()}</span>
+                         </div>
+                         <p className="text-xs font-bold text-slate-600 line-clamp-2">{report.content}</p>
+                      </div>
+                    )) : (
+                      <p className="text-slate-400 text-xs font-bold text-center py-6">No reports submitted yet.</p>
+                    )}
+                 </div>
+              </div>
+
               <div className="bg-slate-900 p-8 rounded-[3rem] text-white relative overflow-hidden group">
                  <div className="relative z-10">
                     <h3 className="text-xl font-black mb-6">Clinical Resources</h3>
@@ -166,22 +214,6 @@ export default function DoctorDashboard() {
                  </div>
                  <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-blue-600/20 rounded-full blur-3xl"></div>
               </div>
-
-              <div className="bg-blue-50 border border-blue-100 p-8 rounded-[3rem]">
-                 <div className="flex items-center gap-3 mb-4">
-                    <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center shadow-lg shadow-blue-200">
-                       <TrendingUp className="w-5 h-5 text-white" />
-                    </div>
-                    <div>
-                       <div className="text-[10px] font-black text-blue-600 uppercase tracking-widest">Efficiency Score</div>
-                       <div className="text-xl font-black text-slate-900">92/100</div>
-                    </div>
-                 </div>
-                 <p className="text-xs font-bold text-slate-500 leading-relaxed">
-                    You are performing 15% better than your monthly average targets. 
-                    <span className="text-blue-600"> Keep it up!</span>
-                 </p>
-              </div>
            </div>
         </div>
 
@@ -194,15 +226,6 @@ export default function DoctorDashboard() {
                  <span>Daily Consultation Schedule</span>
               </h2>
               <p className="text-slate-500 font-bold mt-1">Review and manage your appointments for today.</p>
-            </div>
-            <div className="flex items-center gap-3">
-               <button className="inline-flex items-center space-x-2 px-5 py-3 bg-slate-50 text-slate-600 border border-slate-100 rounded-xl font-black text-xs hover:bg-slate-100 transition-colors uppercase tracking-widest">
-                  <Filter className="w-4 h-4" />
-                  <span>Filter</span>
-               </button>
-               <button className="inline-flex items-center space-x-2 px-6 py-3 bg-slate-900 text-white rounded-xl font-black text-xs hover:bg-blue-600 transition-all shadow-lg uppercase tracking-widest">
-                  <span>Export List</span>
-               </button>
             </div>
           </div>
 
@@ -218,16 +241,18 @@ export default function DoctorDashboard() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-50">
-                {appointments.map((app) => (
+                {appointments.length > 0 ? appointments.map((app) => (
                   <tr key={app.id} className="hover:bg-blue-50/30 transition-colors group">
                     <td className="px-10 py-8">
                       <div className="flex items-center space-x-5">
                          <div className="w-12 h-12 rounded-[1rem] bg-slate-100 flex items-center justify-center font-black text-slate-400 group-hover:bg-blue-600 group-hover:text-white transition-all text-xs">
-                            {app.patientName.split(' ').map(n=>n[0]).join('')}
+                            {(app.patient?.user?.name || "P").split(' ').map((n:any)=>n[0]).join('')}
                          </div>
                          <div>
-                            <div className="font-black text-slate-900 text-lg group-hover:text-blue-600 transition-colors">{app.patientName}</div>
-                            <div className="text-slate-400 text-xs font-bold uppercase tracking-tight">Age: {app.age} • Last visit: {app.lastVisit}</div>
+                            <div className="font-black text-slate-900 text-lg group-hover:text-blue-600 transition-colors">{app.patient?.user?.name || "Patient"}</div>
+                            <div className="text-slate-400 text-xs font-bold uppercase tracking-tight">
+                               {app.patient?.gender} • {new Date(app.date).toLocaleDateString()}
+                            </div>
                          </div>
                       </div>
                     </td>
@@ -236,7 +261,7 @@ export default function DoctorDashboard() {
                     </td>
                     <td className="px-10 py-8">
                       <div className="flex flex-col">
-                        <span className="text-slate-900 font-black">{app.time}</span>
+                        <span className="text-slate-900 font-black">{new Date(app.date).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
                         <span className="text-slate-400 text-xs font-bold">Duration: 30m</span>
                       </div>
                     </td>
@@ -277,21 +302,18 @@ export default function DoctorDashboard() {
                           <Notebook className="w-5 h-5" />
                           <span className="text-xs font-black uppercase tracking-wider px-2">EMR</span>
                         </Link>
-                        <button className="p-3 hover:bg-slate-100 rounded-xl transition-colors text-slate-400">
-                           <MoreVertical className="w-5 h-5" />
-                        </button>
                       </div>
                     </td>
                   </tr>
-                ))}
+                )) : (
+                  <tr>
+                    <td colSpan={5} className="px-10 py-20 text-center text-slate-400 font-bold">
+                       No appointments scheduled yet.
+                    </td>
+                  </tr>
+                )}
               </tbody>
             </table>
-          </div>
-          
-          <div className="bg-slate-50 p-6 text-center border-t border-slate-100">
-             <button className="text-blue-600 font-black text-xs uppercase tracking-[0.2em] hover:underline underline-offset-8 transition-all">
-                Load More Appointments
-             </button>
           </div>
         </div>
 
@@ -319,7 +341,6 @@ export default function DoctorDashboard() {
                     <Stethoscope className="w-32 h-32 opacity-20 group-hover:scale-125 transition-transform duration-700" />
                  </div>
               </div>
-              <div className="absolute -top-12 -left-12 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
            </div>
 
            <div className="bg-slate-900 rounded-[2.5rem] p-8 text-white flex flex-col justify-between">

@@ -20,26 +20,47 @@ export default function BookAppointment() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  // Mock fetching doctors (in a real app, this would be an API call)
+  // Fetch doctors from API
   useEffect(() => {
-    // Simulated data
-    setDoctors([
-      { id: "sena-doc", user: { name: "Dr. Sena" }, department: { name: "Cardiology" }, specialty: "Founder & Chief Medical Officer" },
-      { id: "doc1", user: { name: "Dr. Sarah Wilson" }, department: { name: "Cardiology" }, specialty: "Senior Cardiologist" },
-      { id: "doc2", user: { name: "Dr. James Miller" }, department: { name: "Emergency" }, specialty: "Emergency Physician" },
-    ]);
+    async function fetchDoctors() {
+      try {
+        const res = await fetch("/api/doctors");
+        const data = await res.json();
+        if (Array.isArray(data)) setDoctors(data);
+      } catch (error) {
+        console.error("Error fetching doctors:", error);
+      }
+    }
+    fetchDoctors();
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    // Simulated booking (in a real app, this would be an API call to create appointment)
-    setTimeout(() => {
-      alert("Appointment booked successfully (Mock Flow)!");
-      router.push("/patient");
+    try {
+      const res = await fetch("/api/appointments", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          doctorId: selectedDoctor,
+          date,
+          reason
+        }),
+      });
+
+      if (res.ok) {
+        alert("Clinical appointment confirmed successfully!");
+        router.push("/patient");
+      } else {
+        alert("Failed to confirm appointment. Please try again.");
+      }
+    } catch (error) {
+      console.error("Booking Error:", error);
+      alert("A system error occurred. Please contact support.");
+    } finally {
       setLoading(false);
-    }, 1500);
+    }
   };
 
   return (

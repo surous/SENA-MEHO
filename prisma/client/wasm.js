@@ -179,6 +179,14 @@ exports.Prisma.PrescriptionScalarFieldEnum = {
   createdAt: 'createdAt'
 };
 
+exports.Prisma.HealthReportScalarFieldEnum = {
+  id: 'id',
+  patientId: 'patientId',
+  content: 'content',
+  vitals: 'vitals',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -197,7 +205,8 @@ exports.Prisma.ModelName = {
   Patient: 'Patient',
   Appointment: 'Appointment',
   MedicalNote: 'MedicalNote',
-  Prescription: 'Prescription'
+  Prescription: 'Prescription',
+  HealthReport: 'HealthReport'
 };
 
 /**

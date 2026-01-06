@@ -1,6 +1,6 @@
 "use client";
 
-import { Users, Building2, Award, Heart pulse } from "lucide-react";
+import { Users, Building2, Award, HeartPulse } from "lucide-react";
 
 export default function Stats() {
   const stats = [
