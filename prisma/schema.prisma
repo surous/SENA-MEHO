@@ -1,6 +1,5 @@
 generator client {
   provider      = "prisma-client-js"
-  output        = "./prisma/client"
   binaryTargets = ["native", "rhel-openssl-3.0.x"]
 }
 
@@ -42,9 +41,9 @@ model Doctor {
 }
 
 model Patient {
-  id             String          @id @default(cuid())
-  userId         String          @unique
-  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id             String         @id @default(cuid())
+  userId         String         @unique
+  user           User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   dateOfBirth    DateTime?
   gender         String?
   appointments   Appointment[]
