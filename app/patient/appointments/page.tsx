@@ -40,6 +40,28 @@ export default function AppointmentsPage() {
     ? appointments 
     : appointments.filter(a => a.status.toLowerCase() === filter.toLowerCase());
 
+  const cancelAppointment = async (id: string) => {
+    try {
+      const res = await fetch(`/api/appointments/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: "CANCELLED" }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to cancel appointment");
+      }
+
+      const updated = await res.json();
+      setAppointments(appointments.map((appointment) =>
+        appointment.id === id ? updated : appointment
+      ));
+    } catch (error) {
+      console.error("Error cancelling appointment:", error);
+      alert("Unable to cancel appointment. Please try again.");
+    }
+  };
+
   const statusColors = {
     PENDING: "bg-amber-50 text-amber-700 border-amber-100",
     APPROVED: "bg-blue-50 text-blue-700 border-blue-100",
@@ -149,7 +171,10 @@ export default function AppointmentsPage() {
                     </span>
                     
                     {appointment.status === "PENDING" && (
-                      <button className="text-sm font-black text-red-500 hover:text-red-600 transition-colors">
+                      <button
+                        onClick={() => cancelAppointment(appointment.id)}
+                        className="text-sm font-black text-red-500 hover:text-red-600 transition-colors"
+                      >
                         Cancel Appointment
                       </button>
                     )}

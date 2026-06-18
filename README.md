@@ -1,9 +1,9 @@
 # Sena Medical Hospital - Public Demo
 
-A fully functional hospital management system demo built with Next.js 15, Prisma, and NextAuth.
+A hospital management system demo built with Next.js 16, Prisma, and NextAuth.
 
 ## Tech Stack
-- **Framework**: Next.js 15 (App Router)
+- **Framework**: Next.js 16 (App Router)
 - **Styling**: Tailwind CSS
 - **Database**: PostgreSQL (Prisma ORM)
 - **Auth**: NextAuth.js

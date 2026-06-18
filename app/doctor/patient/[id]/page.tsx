@@ -6,19 +6,14 @@ import {
   ChevronLeft,
   User,
   Calendar,
-  Phone,
   Mail,
-  MapPin,
   Heart,
   Activity,
   Droplets,
   Scale,
   FileText,
   Pill,
-  ClipboardList,
-  AlertCircle,
-  Save,
-  Plus
+  Save
 } from "lucide-react";
 import Link from "next/link";
 
@@ -36,30 +31,16 @@ export default function PatientEMRPage() {
   useEffect(() => {
     async function fetchPatientData() {
       try {
-        // In a real app, we'd have /api/patients/[id] endpoint
-        // For now, we'll fetch from appointments and reports
-        const [apptsRes, reportsRes] = await Promise.all([
-          fetch("/api/appointments"),
-          fetch("/api/health-reports")
-        ]);
-        
-        const apptsData = await apptsRes.json();
-        const reportsData = await reportsRes.json();
-        
-        const patientAppts = Array.isArray(apptsData) 
-          ? apptsData.filter((a: any) => a.patientId === patientId)
-          : [];
-        const patientReports = Array.isArray(reportsData)
-          ? reportsData.filter((r: any) => r.patientId === patientId)
-          : [];
-        
-        setAppointments(patientAppts);
-        setReports(patientReports);
-        
-        // Get patient info from first appointment
-        if (patientAppts.length > 0) {
-          setPatient(patientAppts[0].patient);
+        const res = await fetch(`/api/patients/${patientId}`);
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch patient record");
         }
+
+        const patientData = await res.json();
+        setPatient(patientData);
+        setAppointments(patientData.appointments || []);
+        setReports(patientData.healthReports || []);
       } catch (error) {
         console.error("Error fetching patient data:", error);
       } finally {
@@ -70,16 +51,54 @@ export default function PatientEMRPage() {
     fetchPatientData();
   }, [patientId]);
 
-  const handleSaveNote = () => {
-    // In a real app, POST to /api/medical-notes
-    alert("Clinical note saved successfully!");
-    setClinicalNote("");
+  const handleSaveNote = async () => {
+    try {
+      const res = await fetch("/api/medical-notes", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ patientId, content: clinicalNote }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to save clinical note");
+      }
+
+      const note = await res.json();
+      setPatient((current: any) => ({
+        ...current,
+        medicalRecords: [note, ...(current?.medicalRecords || [])],
+      }));
+      alert("Clinical note saved successfully!");
+      setClinicalNote("");
+    } catch (error) {
+      console.error("Error saving note:", error);
+      alert("Unable to save clinical note. Please try again.");
+    }
   };
 
-  const handlePrescribe = () => {
-    // In a real app, POST to /api/prescriptions
-    alert(`Prescription added: ${prescription.medication}`);
-    setPrescription({ medication: "", dosage: "", duration: "" });
+  const handlePrescribe = async () => {
+    try {
+      const res = await fetch("/api/prescriptions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ patientId, ...prescription }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to add prescription");
+      }
+
+      const note = await res.json();
+      setPatient((current: any) => ({
+        ...current,
+        medicalRecords: [note, ...(current?.medicalRecords || [])],
+      }));
+      alert(`Prescription added: ${prescription.medication}`);
+      setPrescription({ medication: "", dosage: "", duration: "" });
+    } catch (error) {
+      console.error("Error adding prescription:", error);
+      alert("Unable to add prescription. Please try again.");
+    }
   };
 
   if (loading) {
@@ -94,7 +113,14 @@ export default function PatientEMRPage() {
   }
 
   const latestReport = reports[0];
-  const latestVitals = latestReport ? JSON.parse(latestReport.vitals || "{}") : {};
+  const latestVitals = (() => {
+    try {
+      return latestReport ? JSON.parse(latestReport.vitals || "{}") : {};
+    } catch {
+      return {};
+    }
+  })();
+  const prescriptions = patient?.medicalRecords?.flatMap((record: any) => record.prescriptions || []) || [];
 
   return (
     <div className="min-h-screen bg-white">
@@ -234,7 +260,7 @@ export default function PatientEMRPage() {
                     <input
                       type="text"
                       value={prescription.duration}
-                      onChange={(e) => setPrescription({...prescription, dosage: e.target.value})}
+                      onChange={(e) => setPrescription({...prescription, duration: e.target.value})}
                       placeholder="e.g., 30 days"
                       className="w-full px-6 py-4 rounded-xl border border-slate-200 focus:ring-2 focus:ring-blue-500 outline-none transition-all font-bold text-slate-900"
                     />
@@ -247,6 +273,27 @@ export default function PatientEMRPage() {
                   <Pill className="w-5 h-5" />
                   <span>Add Prescription</span>
                 </button>
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-2xl font-black text-slate-900 mb-6">Clinical Notes</h2>
+              <div className="space-y-4">
+                {patient?.medicalRecords?.length > 0 ? patient.medicalRecords.map((record: any) => (
+                  <div key={record.id} className="bg-white border border-slate-100 rounded-2xl p-6 shadow-sm">
+                    <div className="flex items-center justify-between mb-3">
+                      <span className="text-sm font-black text-slate-900">
+                        {record.doctor?.user?.name || "Clinical staff"}
+                      </span>
+                      <span className="text-xs font-bold text-slate-400">
+                        {new Date(record.createdAt).toLocaleString()}
+                      </span>
+                    </div>
+                    <p className="text-sm font-bold text-slate-600 leading-relaxed">{record.content}</p>
+                  </div>
+                )) : (
+                  <p className="text-sm text-slate-400 font-bold text-center py-8">No clinical notes yet</p>
+                )}
               </div>
             </section>
           </div>
@@ -275,6 +322,22 @@ export default function PatientEMRPage() {
                   </div>
                 )) : (
                   <p className="text-sm text-slate-400 font-bold text-center py-8">No appointments found</p>
+                )}
+              </div>
+            </section>
+
+            <section>
+              <h2 className="text-xl font-black text-slate-900 mb-6">Prescriptions</h2>
+              <div className="space-y-3">
+                {prescriptions.length > 0 ? prescriptions.map((item: any) => (
+                  <div key={item.id} className="bg-white border border-slate-100 rounded-xl p-4">
+                    <div className="font-black text-slate-900">{item.medication}</div>
+                    <p className="text-xs font-bold text-slate-500 mt-1">
+                      {item.dosage} · {item.duration}
+                    </p>
+                  </div>
+                )) : (
+                  <p className="text-sm text-slate-400 font-bold text-center py-8">No prescriptions found</p>
                 )}
               </div>
             </section>

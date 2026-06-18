@@ -67,11 +67,23 @@ export default function DoctorDashboard() {
 
   const updateStatus = async (id: string, newStatus: string) => {
     try {
-      setAppointments(appointments.map(app => 
-        app.id === id ? { ...app, status: newStatus } : app
+      const res = await fetch(`/api/appointments/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ status: newStatus }),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to update appointment status");
+      }
+
+      const updated = await res.json();
+      setAppointments(appointments.map(app =>
+        app.id === id ? updated : app
       ));
     } catch (error) {
       console.error("Error updating status:", error);
+      alert("Unable to update appointment status. Please try again.");
     }
   };
 

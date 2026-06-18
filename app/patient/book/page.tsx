@@ -16,6 +16,7 @@ export default function BookAppointment() {
   const [doctors, setDoctors] = useState<Doctor[]>([]);
   const [selectedDoctor, setSelectedDoctor] = useState("");
   const [date, setDate] = useState("");
+  const [time, setTime] = useState("09:00");
   const [reason, setReason] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
@@ -44,7 +45,7 @@ export default function BookAppointment() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           doctorId: selectedDoctor,
-          date,
+          date: `${date}T${time}:00`,
           reason
         }),
       });
@@ -124,6 +125,8 @@ export default function BookAppointment() {
                       <span>Time Slot</span>
                     </label>
                     <select
+                      value={time}
+                      onChange={(e) => setTime(e.target.value)}
                       className="w-full px-6 py-5 rounded-[1.5rem] border border-slate-100 focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 outline-none transition-all appearance-none bg-slate-50 font-bold text-slate-900"
                       required
                     >
